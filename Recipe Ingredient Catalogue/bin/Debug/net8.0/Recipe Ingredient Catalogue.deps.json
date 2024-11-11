@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Recipe Ingredient Catalogue/1.0.0": {
+        "runtime": {
+          "Recipe Ingredient Catalogue.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Recipe Ingredient Catalogue/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

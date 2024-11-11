@@ -1,0 +1,14 @@
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/bin/Debug/net8.0/Recipe Ingredient Catalogue
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/bin/Debug/net8.0/Recipe Ingredient Catalogue.deps.json
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/bin/Debug/net8.0/Recipe Ingredient Catalogue.runtimeconfig.json
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/bin/Debug/net8.0/Recipe Ingredient Catalogue.dll
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/bin/Debug/net8.0/Recipe Ingredient Catalogue.pdb
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/Debug/net8.0/Recipe Ingredient Catalogue.GeneratedMSBuildEditorConfig.editorconfig
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/Debug/net8.0/Recipe Ingredient Catalogue.AssemblyInfoInputs.cache
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/Debug/net8.0/Recipe Ingredient Catalogue.AssemblyInfo.cs
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/Debug/net8.0/Recipe Ingredient Catalogue.csproj.CoreCompileInputs.cache
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/Debug/net8.0/Recipe Ingredient Catalogue.dll
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/Debug/net8.0/refint/Recipe Ingredient Catalogue.dll
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/Debug/net8.0/Recipe Ingredient Catalogue.pdb
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/Debug/net8.0/Recipe Ingredient Catalogue.genruntimeconfig.cache
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/Debug/net8.0/ref/Recipe Ingredient Catalogue.dll
