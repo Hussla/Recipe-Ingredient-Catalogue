@@ -12,3 +12,4 @@
 /Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/Debug/net8.0/Recipe Ingredient Catalogue.pdb
 /Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/Debug/net8.0/Recipe Ingredient Catalogue.genruntimeconfig.cache
 /Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/Debug/net8.0/ref/Recipe Ingredient Catalogue.dll
+/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/Debug/net8.0/Recipe Ingredient Catalogue.sourcelink.json
