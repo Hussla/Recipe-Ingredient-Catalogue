@@ -165,35 +165,26 @@ class Program
         }
     }
 
-     // Additional Functions Placeholder
-   static void AddNewRecipe(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
+    static void AddNewRecipe(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
     {
         // Function to add a new recipe to the catalogue
         try
         {
-            Console.Write("Enter the recipe name: ");
-            string recipeName = Console.ReadLine();
-
-            // Check if the recipe already exists
+            string recipeName = GetInput("Enter the recipe name: ");
             if (recipes.ContainsKey(recipeName))
             {
                 Console.WriteLine("A recipe with this name already exists. Please enter a different name.");
                 return;
             }
 
-            Console.Write("Enter the cuisine type: ");
-            string cuisine = Console.ReadLine();
-
-            // Create a new Recipe object and add it to the recipes dictionary
+            string cuisine = GetInput("Enter the cuisine type: ");
             Recipe newRecipe = new Recipe(recipeName, cuisine);
 
-            // Optionally add ingredients to the recipe
-            Console.Write("Do you want to add ingredients to this recipe? (yes/no): ");
-            string addIngredientsResponse = Console.ReadLine().ToLower();
-            while (addIngredientsResponse == "yes")
+            while (true)
             {
-                Console.Write("Enter the ingredient's name: ");
-                string ingredientName = Console.ReadLine();
+                string ingredientName = GetInput("Enter the ingredient's name (or 'done' to finish): ");
+                if (ingredientName.ToLower() == "done")
+                    break;
 
                 if (ingredients.ContainsKey(ingredientName))
                 {
@@ -204,9 +195,6 @@ class Program
                 {
                     Console.WriteLine($"Ingredient '{ingredientName}' not found. Please add the ingredient first.");
                 }
-
-                Console.Write("Do you want to add another ingredient to this recipe? (yes/no): ");
-                addIngredientsResponse = Console.ReadLine().ToLower();
             }
 
             recipes[recipeName] = newRecipe;
@@ -218,29 +206,19 @@ class Program
         }
     }
 
-    // Additional Functions Placeholder
-    static void AddNewIngredient(Dictionary<string, Ingredient> ingredients) {
+    static void AddNewIngredient(Dictionary<string, Ingredient> ingredients)
+    {
         // Function to add a new ingredient to the catalogue
         try
         {
-            Console.Write("Enter the ingredient name: ");
-            string ingredientName = Console.ReadLine();
-
-            // Check if the ingredient already exists
+            string ingredientName = GetInput("Enter the ingredient name: ");
             if (ingredients.ContainsKey(ingredientName))
             {
                 Console.WriteLine("An ingredient with this name already exists. Please enter a different name.");
                 return;
             }
 
-            Console.Write("Enter the quantity available: ");
-            if (!int.TryParse(Console.ReadLine(), out int quantity))
-            {
-                Console.WriteLine("Invalid input. Quantity must be a number.");
-                return;
-            }
-
-            // Create a new Ingredient object and add it to the ingredients dictionary
+            int quantity = GetIntInput("Enter the quantity available: ");
             Ingredient newIngredient = new Ingredient(ingredientName, quantity);
             ingredients[ingredientName] = newIngredient;
             Console.WriteLine("Ingredient added successfully!");
@@ -251,7 +229,8 @@ class Program
         }
     }
 
-    static void DisplayAllRecipes(Dictionary<string, Recipe> recipes) {
+    static void DisplayAllRecipes(Dictionary<string, Recipe> recipes)
+    {
         // Function to display all recipes
         if (recipes.Count == 0)
         {
@@ -267,12 +246,10 @@ class Program
         }
     }
 
-    static void DisplayRecipesByCuisine(Dictionary<string, Recipe> recipes) {
+    static void DisplayRecipesByCuisine(Dictionary<string, Recipe> recipes)
+    {
         // Function to display recipes by cuisine type
-       Console.Write("Enter the cuisine to filter by: ");
-        string cuisine = Console.ReadLine();
-
-        // Use LINQ to filter recipes by the specified cuisine
+        string cuisine = GetInput("Enter the cuisine to filter by: ");
         var filteredRecipes = recipes.Values.Where(r => r.GetCuisine().Equals(cuisine, StringComparison.OrdinalIgnoreCase)).ToList();
 
         if (filteredRecipes.Count == 0)
@@ -290,10 +267,10 @@ class Program
         }
     }
 
-    static void LoadRecipesAndIngredients(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients) {
+    static void LoadRecipesAndIngredients(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
+    {
         // Function to load recipes and ingredients from a file
-         Console.WriteLine("What file would you like to load?");
-        string filename = Console.ReadLine();
+        string filename = GetInput("What file would you like to load?");
 
         if (File.Exists(filename))
         {
@@ -325,7 +302,6 @@ class Program
                     {
                         try
                         {
-                            // Split the line by comma to extract recipe details
                             var parts = line.Split(",");
                             if (parts.Length >= 2)
                             {
@@ -349,21 +325,14 @@ class Program
                     {
                         try
                         {
-                            // Split the line by comma to extract ingredient details
                             var parts = line.Split(",");
                             if (parts.Length >= 2)
                             {
                                 string name = parts[0].Trim();
-                                if (int.TryParse(parts[1].Trim(), out int quantity))
-                                {
-                                    Ingredient newIngredient = new Ingredient(name, quantity);
-                                    ingredients[name] = newIngredient;
-                                    Console.WriteLine($"Loaded Ingredient: {name}");
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"Incorrect ingredient format: {line}");
-                                }
+                                int quantity = GetIntInput($"Enter the quantity for '{name}': ");
+                                Ingredient newIngredient = new Ingredient(name, quantity);
+                                ingredients[name] = newIngredient;
+                                Console.WriteLine($"Loaded Ingredient: {name}");
                             }
                             else
                             {
@@ -376,7 +345,7 @@ class Program
                         }
                     }
                 }
-                }
+            }
 
             // Display a success message after loading data
             Console.WriteLine("Data loaded successfully.");
@@ -386,15 +355,13 @@ class Program
             // Inform the user if the specified file does not exist
             Console.WriteLine($"Sorry, '{filename}' does not exist.");
         }
-        
     }
 
-    static void SearchRecipesOrIngredients(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients) {
+    static void SearchRecipesOrIngredients(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
+    {
         // Function to search recipes or ingredients by name
-        Console.WriteLine("Enter search term (recipe name or ingredient name):");
-        string searchTerm = Console.ReadLine().ToLower();
+        string searchTerm = GetInput("Enter search term (recipe name or ingredient name):");
 
-        // Search for recipes that match the search term
         var matchingRecipes = recipes.Values.Where(r => r.GetName().ToLower().Contains(searchTerm)).ToList();
         if (matchingRecipes.Count > 0)
         {
@@ -409,7 +376,6 @@ class Program
             Console.WriteLine("No matching recipes found.");
         }
 
-        // Search for ingredients that match the search term
         var matchingIngredients = ingredients.Values.Where(i => i.GetName().ToLower().Contains(searchTerm)).ToList();
         if (matchingIngredients.Count > 0)
         {
@@ -425,23 +391,18 @@ class Program
         }
     }
 
-    static void UpdateRecipeOrIngredientInformation(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients) {
+    static void UpdateRecipeOrIngredientInformation(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
+    {
         // Function to update information of a recipe or ingredient
-         Console.WriteLine("Do you want to update a Recipe or an Ingredient? (Enter 'Recipe' or 'Ingredient'):");
-        string choice = Console.ReadLine().ToLower();
+        string choice = GetInput("Do you want to update a Recipe or an Ingredient? (Enter 'Recipe' or 'Ingredient'):").ToLower();
 
         if (choice == "recipe")
         {
-            Console.Write("Enter the name of the recipe to update: ");
-            string recipeName = Console.ReadLine();
-
+            string recipeName = GetInput("Enter the name of the recipe to update:");
             if (recipes.ContainsKey(recipeName))
             {
-                Console.Write("Enter new cuisine: ");
-                string newCuisine = Console.ReadLine();
-
-                // Update recipe details
-                                recipes[recipeName].SetCuisine(newCuisine);
+                string newCuisine = GetInput("Enter new cuisine:");
+                recipes[recipeName].SetCuisine(newCuisine);
                 Console.WriteLine("Recipe updated successfully!");
             }
             else
@@ -451,19 +412,10 @@ class Program
         }
         else if (choice == "ingredient")
         {
-            Console.Write("Enter the name of the ingredient to update: ");
-            string ingredientName = Console.ReadLine();
-
+            string ingredientName = GetInput("Enter the name of the ingredient to update:");
             if (ingredients.ContainsKey(ingredientName))
             {
-                Console.Write("Enter new quantity available: ");
-                if (!int.TryParse(Console.ReadLine(), out int newQuantity))
-                {
-                    Console.WriteLine("Invalid input. Quantity must be a number.");
-                    return;
-                }
-
-                // Update ingredient details
+                int newQuantity = GetIntInput("Enter new quantity available:");
                 ingredients[ingredientName].SetQuantity(newQuantity);
                 Console.WriteLine("Ingredient updated successfully!");
             }
@@ -478,12 +430,9 @@ class Program
         }
     }
 
-    // Displays recipes that contain a specific ingredient
     static void DisplayRecipesByIngredient(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
     {
-        Console.Write("Enter the ingredient name to find recipes: ");
-        string ingredientName = Console.ReadLine();
-
+        string ingredientName = GetInput("Enter the ingredient name to find recipes:");
         if (ingredients.ContainsKey(ingredientName))
         {
             var recipesWithIngredient = recipes.Values.Where(r => r.GetIngredients().Any(i => i.GetName().Equals(ingredientName, StringComparison.OrdinalIgnoreCase))).ToList();
@@ -507,11 +456,9 @@ class Program
         }
     }
 
-    // Saves recipes and ingredients to a file
     static void SaveDataToFile(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
     {
-        Console.WriteLine("Enter the filename to save data to:");
-        string filename = Console.ReadLine();
+        string filename = GetInput("Enter the filename to save data to:");
 
         try
         {
@@ -531,9 +478,7 @@ class Program
                 lines.Add($"{ingredient.GetName()}, {ingredient.GetQuantity()}");
             }
 
-            // Write all lines to the specified file
             File.WriteAllLines(filename, lines);
-
             Console.WriteLine("Data saved successfully.");
         }
         catch (Exception e)
@@ -542,17 +487,13 @@ class Program
         }
     }
 
-    // Removes a recipe or ingredient from the catalogue
     static void RemoveRecipeOrIngredient(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
     {
-        Console.Write("Do you want to remove a Recipe or an Ingredient? (Enter 'Recipe' or 'Ingredient'): ");
-        string choice = Console.ReadLine().ToLower();
+        string choice = GetInput("Do you want to remove a Recipe or an Ingredient? (Enter 'Recipe' or 'Ingredient'):").ToLower();
 
         if (choice == "recipe")
         {
-            Console.Write("Enter the name of the recipe to remove: ");
-            string recipeName = Console.ReadLine();
-
+            string recipeName = GetInput("Enter the name of the recipe to remove:");
             if (recipes.ContainsKey(recipeName))
             {
                 recipes.Remove(recipeName);
@@ -565,9 +506,7 @@ class Program
         }
         else if (choice == "ingredient")
         {
-            Console.Write("Enter the name of the ingredient to remove: ");
-            string ingredientName = Console.ReadLine();
-
+            string ingredientName = GetInput("Enter the name of the ingredient to remove:");
             if (ingredients.ContainsKey(ingredientName))
             {
                 ingredients.Remove(ingredientName);
@@ -584,16 +523,13 @@ class Program
         }
     }
 
-    // Rates a recipe
     static void RateRecipe(Dictionary<string, Recipe> recipes)
     {
-        Console.Write("Enter the name of the recipe to rate: ");
-        string recipeName = Console.ReadLine();
-
+        string recipeName = GetInput("Enter the name of the recipe to rate:");
         if (recipes.ContainsKey(recipeName))
         {
-            Console.Write("Enter your rating (1-5): ");
-            if (int.TryParse(Console.ReadLine(), out int rating) && rating >= 1 && rating <= 5)
+            int rating = GetIntInput("Enter your rating (1-5): ");
+            if (rating >= 1 && rating <= 5)
             {
                 recipes[recipeName].AddRating(rating);
                 Console.WriteLine("Rating added successfully!");
@@ -609,11 +545,9 @@ class Program
         }
     }
 
-    // Sorts recipes or ingredients
     static void SortRecipesOrIngredients(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
     {
-        Console.Write("Do you want to sort Recipes or Ingredients? (Enter 'Recipe' or 'Ingredient'): ");
-        string choice = Console.ReadLine().ToLower();
+        string choice = GetInput("Do you want to sort Recipes or Ingredients? (Enter 'Recipe' or 'Ingredient'):").ToLower();
 
         if (choice == "recipe")
         {
@@ -641,11 +575,9 @@ class Program
         }
     }
 
-    // Exports the recipe and ingredient catalogue to a text file
     static void ExportReport(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
     {
-        Console.Write("Enter the filename to export the report to: ");
-        string filename = Console.ReadLine();
+        string filename = GetInput("Enter the filename to export the report to:");
 
         try
         {
@@ -669,9 +601,7 @@ class Program
                 reportLines.Add($"Name: {ingredient.GetName()}, Quantity: {ingredient.GetQuantity()}");
             }
 
-            // Write report to the specified file
             File.WriteAllLines(filename, reportLines);
-
             Console.WriteLine("Report exported successfully.");
         }
         catch (Exception e)
@@ -680,15 +610,31 @@ class Program
         }
     }
 
-    // Exits the program
     static void ExitProgram()
     {
         Console.WriteLine("Goodbye!");
         Environment.Exit(0);
     }
+
+    // Helper methods to reduce code duplication
+    static string GetInput(string prompt)
+    {
+        Console.Write(prompt);
+        return Console.ReadLine();
+    }
+
+    static int GetIntInput(string prompt)
+    {
+        while (true)
+        {
+            Console.Write(prompt);
+            if (int.TryParse(Console.ReadLine(), out int value))
+                return value;
+            else
+                Console.WriteLine("Invalid input. Please enter a valid integer.");
+        }
+    }
 }
-
-
 
 // Ingredient Class Definition
 public class Ingredient
@@ -786,13 +732,10 @@ public class Recipe
         Debug.Assert(Math.Abs(testRecipe.GetAverageRating() - 4.0) < 0.001, "Error: GetAverageRating failed");
     }
 }
-
-
-
-    // Additional functions like SearchRecipesOrIngredients, UpdateRecipeOrIngredientInformation, etc., will be implemented here
-
-    // Explanation of Topics Included So Far
-    /*
+ 
+// Additional functions like SearchRecipesOrIngredients, UpdateRecipeOrIngredientInformation, etc., will be implemented here
+ /*
+     Explanation of Topics Included So Far
     1. Console IO and Variables:
         - The program makes extensive use of Console.WriteLine() and Console.ReadLine() for user interaction.
         - Variables are used to store user input and data like recipes and ingredients.
@@ -820,5 +763,4 @@ public class Recipe
     7. Writing Fast Code:
         - LINQ queries are used to filter recipes and ingredients, offering a concise and readable way to work with collections.
         - Optimization techniques can be further employed to improve performance in larger datasets.
-    */
-
+*/

@@ -5,10 +5,10 @@ using System.Diagnostics;
 // Class representing a Recipe
 public class Recipe
 {
-    // Member Variables
-    private string name; // Stores the name of the recipe
-    private string cuisine; // Stores the type of cuisine (e.g., Italian, Mexican)
-    private int preparationTime; // Stores the preparation time in minutes
+    // Properties with getters and setters
+    public string Name { get; set; } // Stores the name of the recipe
+    public string Cuisine { get; set; } // Stores the type of cuisine (e.g., Italian, Mexican)
+    public int PreparationTime { get; set; } // Stores the preparation time in minutes
     private List<Ingredient> ingredients; // Stores the list of ingredients for the recipe
     private List<int> ratings; // Stores user ratings for the recipe
 
@@ -16,44 +16,14 @@ public class Recipe
     // Initialises a new instance of the Recipe class with the specified name, cuisine, and preparation time
     public Recipe(string name, string cuisine, int preparationTime)
     {
-        this.name = name;
-        this.cuisine = cuisine;
-        this.preparationTime = preparationTime;
-        this.ingredients = new List<Ingredient>();
-        this.ratings = new List<int>();
+        Name = name;
+        Cuisine = cuisine;
+        PreparationTime = preparationTime;
+        ingredients = new List<Ingredient>();
+        ratings = new List<int>();
     }
 
     // Member Functions
-
-    // Returns the name of the recipe
-    public string GetName()
-    {
-        return name;
-    }
-
-    // Returns the type of cuisine
-    public string GetCuisine()
-    {
-        return cuisine;
-    }
-
-    // Sets a new cuisine type for the recipe
-    public void SetCuisine(string cuisine)
-    {
-        this.cuisine = cuisine;
-    }
-
-    // Returns the preparation time in minutes
-    public int GetPreparationTime()
-    {
-        return preparationTime;
-    }
-
-    // Sets a new preparation time for the recipe
-    public void SetPreparationTime(int preparationTime)
-    {
-        this.preparationTime = preparationTime;
-    }
 
     // Adds an ingredient to the recipe
     public void AddIngredient(Ingredient ingredient)
@@ -70,13 +40,13 @@ public class Recipe
     // Displays detailed information about the recipe, including its name, cuisine, preparation time, and ingredients
     public void DisplayInfo()
     {
-        Console.WriteLine("Recipe Name: " + name);
-        Console.WriteLine("Cuisine: " + cuisine);
-        Console.WriteLine("Preparation Time: " + preparationTime + " minutes");
+        Console.WriteLine("Recipe Name: " + Name);
+        Console.WriteLine("Cuisine: " + Cuisine);
+        Console.WriteLine("Preparation Time: " + PreparationTime + " minutes");
         Console.WriteLine("Ingredients:");
         foreach (Ingredient ingredient in ingredients)
         {
-            Console.WriteLine("- " + ingredient.GetName() + " (" + ingredient.GetQuantity() + ")");
+            Console.WriteLine("- " + ingredient.Name + " (" + ingredient.Quantity + ")");
         }
         Console.WriteLine("Average Rating: " + GetAverageRating());
     }
@@ -112,22 +82,20 @@ public class Recipe
     {
         Recipe testRecipe = new Recipe("Test Recipe", "Test Cuisine", 30);
 
-        // Test GetName
-        Debug.Assert(testRecipe.GetName() == "Test Recipe", "Error: GetName failed.");
+        // Test Name property
+        Debug.Assert(testRecipe.Name == "Test Recipe", "Error: Name getter failed.");
+        testRecipe.Name = "Updated Recipe";
+        Debug.Assert(testRecipe.Name == "Updated Recipe", "Error: Name setter failed.");
 
-        // Test GetCuisine
-        Debug.Assert(testRecipe.GetCuisine() == "Test Cuisine", "Error: GetCuisine failed.");
+        // Test Cuisine property
+        Debug.Assert(testRecipe.Cuisine == "Test Cuisine", "Error: Cuisine getter failed.");
+        testRecipe.Cuisine = "Updated Cuisine";
+        Debug.Assert(testRecipe.Cuisine == "Updated Cuisine", "Error: Cuisine setter failed.");
 
-        // Test GetPreparationTime
-        Debug.Assert(testRecipe.GetPreparationTime() == 30, "Error: GetPreparationTime failed.");
-
-        // Test SetCuisine
-        testRecipe.SetCuisine("Updated Cuisine");
-        Debug.Assert(testRecipe.GetCuisine() == "Updated Cuisine", "Error: SetCuisine failed.");
-
-        // Test SetPreparationTime
-        testRecipe.SetPreparationTime(45);
-        Debug.Assert(testRecipe.GetPreparationTime() == 45, "Error: SetPreparationTime failed.");
+        // Test PreparationTime property
+        Debug.Assert(testRecipe.PreparationTime == 30, "Error: PreparationTime getter failed.");
+        testRecipe.PreparationTime = 45;
+        Debug.Assert(testRecipe.PreparationTime == 45, "Error: PreparationTime setter failed.");
 
         // Test AddIngredient and GetIngredients
         Ingredient testIngredient = new Ingredient("Test Ingredient", "100g");
@@ -139,5 +107,20 @@ public class Recipe
         testRecipe.AddRating(5);
         testRecipe.AddRating(4);
         Debug.Assert(testRecipe.GetAverageRating() == 4.5, "Error: GetAverageRating failed.");
+
+        Console.WriteLine("All Recipe class tests passed.");
     }
 }
+
+/*
+Usage:
+The Recipe class can be instantiated with specific names, cuisines, and preparation times for different recipes.
+The DisplayInfo() method can be called to print the details of each recipe instance to the console.
+The AddIngredient() method can be used to add ingredients to the recipe.                                    
+The GetAverageRating() method can be used to calculate the average rating of the recipe.
+The RunTests() method provides a simple way to verify the correctness of the Recipe class by running predefined assertions.         
+
+Summary:
+The Recipe.cs file defines a Recipe class that encapsulates properties for name, cuisine, preparation time, ingredients, and ratings, along with methods to display this information, add ingredients, calculate the average rating, and perform basic unit testing. 
+This structure is useful in applications where managing and displaying recipe information is required.
+*/  
