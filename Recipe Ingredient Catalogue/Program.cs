@@ -616,7 +616,8 @@ class Program
         Environment.Exit(0);
     }
 
-    // Helper methods to reduce code duplication
+    // Helper methods to reduce code duplication and improve readability/maintainability of the program.
+    // GetInput() and GetIntInput() are used to handle user input and validation.    
     static string GetInput(string prompt)
     {
         Console.Write(prompt);
@@ -735,7 +736,8 @@ public class Recipe
  
 // Additional functions like SearchRecipesOrIngredients, UpdateRecipeOrIngredientInformation, etc., will be implemented here
  /*
-     Explanation of Topics Included So Far
+    
+    Explanation of Topics Included So Far
     1. Console IO and Variables:
         - The program makes extensive use of Console.WriteLine() and Console.ReadLine() for user interaction.
         - Variables are used to store user input and data like recipes and ingredients.
@@ -763,4 +765,5 @@ public class Recipe
     7. Writing Fast Code:
         - LINQ queries are used to filter recipes and ingredients, offering a concise and readable way to work with collections.
         - Optimization techniques can be further employed to improve performance in larger datasets.
+
 */
