@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "/Users/husslaos/.nuget/packages/": {}
+    "/home/codespace/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj",
+      "projectUniqueName": "/workspaces/Recipe-Ingredient-Catalogue/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj",
       "projectName": "Recipe Ingredient Catalogue",
-      "projectPath": "/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj",
-      "packagesPath": "/Users/husslaos/.nuget/packages/",
-      "outputPath": "/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/",
+      "projectPath": "/workspaces/Recipe-Ingredient-Catalogue/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj",
+      "packagesPath": "/home/codespace/.nuget/packages/",
+      "outputPath": "/workspaces/Recipe-Ingredient-Catalogue/Recipe Ingredient Catalogue/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/husslaos/.nuget/NuGet/NuGet.Config"
+        "/home/codespace/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -64,7 +64,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.402/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

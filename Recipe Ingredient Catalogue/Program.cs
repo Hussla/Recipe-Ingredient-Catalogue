@@ -232,7 +232,7 @@ class Program
     static void DisplayAllRecipes(Dictionary<string, Recipe> recipes)
     {
         // Function to display all recipes
-        if (recipes.Count == 0)
+        if (recipes.Count() == 0)
         {
             Console.WriteLine("No recipes available in the catalogue.");
         }
@@ -252,7 +252,7 @@ class Program
         string cuisine = GetInput("Enter the cuisine to filter by: ");
         var filteredRecipes = recipes.Values.Where(r => r.GetCuisine().Equals(cuisine, StringComparison.OrdinalIgnoreCase)).ToList();
 
-        if (filteredRecipes.Count == 0)
+        if (filteredRecipes.Count() == 0)
         {
             Console.WriteLine($"No recipes found for the cuisine '{cuisine}'.");
         }
@@ -363,7 +363,7 @@ class Program
         string searchTerm = GetInput("Enter search term (recipe name or ingredient name):");
 
         var matchingRecipes = recipes.Values.Where(r => r.GetName().ToLower().Contains(searchTerm)).ToList();
-        if (matchingRecipes.Count > 0)
+        if (matchingRecipes.Count() > 0)
         {
             Console.WriteLine("Matching Recipes:");
             foreach (var recipe in matchingRecipes)
@@ -377,7 +377,7 @@ class Program
         }
 
         var matchingIngredients = ingredients.Values.Where(i => i.GetName().ToLower().Contains(searchTerm)).ToList();
-        if (matchingIngredients.Count > 0)
+        if (matchingIngredients.Count() > 0)
         {
             Console.WriteLine("Matching Ingredients:");
             foreach (var ingredient in matchingIngredients)
@@ -437,7 +437,7 @@ class Program
         {
             var recipesWithIngredient = recipes.Values.Where(r => r.GetIngredients().Any(i => i.GetName().Equals(ingredientName, StringComparison.OrdinalIgnoreCase))).ToList();
 
-            if (recipesWithIngredient.Count > 0)
+            if (recipesWithIngredient.Count() > 0)
             {
                 Console.WriteLine($"Recipes with the ingredient '{ingredientName}':");
                 foreach (var recipe in recipesWithIngredient)
@@ -637,102 +637,6 @@ class Program
     }
 }
 
-// Ingredient Class Definition
-public class Ingredient
-{
-    // Member Variables
-    private string name; // Stores the name of the ingredient
-    private int quantity; // Stores the quantity of the ingredient
-
-    // Constructor
-    public Ingredient(string name, int quantity)
-    {
-        this.name = name;
-        this.quantity = quantity;
-    }
-
-    // Member Functions
-    public string GetName() => name;
-    public int GetQuantity() => quantity;
-    public void SetQuantity(int quantity) => this.quantity = quantity;
-    public void DisplayInfo()
-    {
-        Console.WriteLine($"Ingredient: {name}, Quantity: {quantity}");
-    }
-
-    // Unit Tests
-    public static void RunTests()
-    {
-        Ingredient testIngredient = new Ingredient("Sugar", 5);
-        Debug.Assert(testIngredient.GetName() == "Sugar", "Error: GetName failed");
-        Debug.Assert(testIngredient.GetQuantity() == 5, "Error: GetQuantity failed");
-        testIngredient.SetQuantity(10);
-        Debug.Assert(testIngredient.GetQuantity() == 10, "Error: SetQuantity failed");
-    }
-}
-
-// Recipe Class Definition
-public class Recipe
-{
-    // Member Variables
-    private string name; // Stores the name of the recipe
-    private string cuisine; // Stores the type of cuisine
-    private List<Ingredient> ingredients; // Stores a list of ingredients
-    private List<int> ratings; // Stores user ratings for the recipe
-
-    // Constructor
-    public Recipe(string name, string cuisine)
-    {
-        this.name = name;
-        this.cuisine = cuisine;
-        this.ingredients = new List<Ingredient>();
-        this.ratings = new List<int>();
-    }
-
-    // Member Functions
-    public string GetName() => name;
-    public string GetCuisine() => cuisine;
-    public void SetCuisine(string cuisine) => this.cuisine = cuisine;
-    public List<Ingredient> GetIngredients() => ingredients;
-    public void AddIngredient(Ingredient ingredient) => ingredients.Add(ingredient);
-    public void AddRating(int rating)
-    {
-        if (rating >= 1 && rating <= 5)
-        {
-            ratings.Add(rating);
-        }
-        else
-        {
-            throw new ArgumentException("Rating must be between 1 and 5.");
-        }
-    }
-    public double GetAverageRating() => ratings.Count == 0 ? 0.0 : ratings.Average();
-    public void DisplayInfo()
-    {
-        Console.WriteLine($"Recipe: {name}, Cuisine: {cuisine}, Average Rating: {GetAverageRating():F1}");
-        Console.WriteLine("Ingredients:");
-        foreach (var ingredient in ingredients)
-        {
-            ingredient.DisplayInfo();
-        }
-    }
-
-    // Unit Tests
-    public static void RunTests()
-    {
-        Recipe testRecipe = new Recipe("Pasta", "Italian");
-        Debug.Assert(testRecipe.GetName() == "Pasta", "Error: GetName failed");
-        Debug.Assert(testRecipe.GetCuisine() == "Italian", "Error: GetCuisine failed");
-        testRecipe.SetCuisine("Mexican");
-        Debug.Assert(testRecipe.GetCuisine() == "Mexican", "Error: SetCuisine failed");
-        Ingredient testIngredient = new Ingredient("Tomato", 3);
-        testRecipe.AddIngredient(testIngredient);
-        Debug.Assert(testRecipe.GetIngredients().Count == 1, "Error: AddIngredient failed");
-        testRecipe.AddRating(5);
-        testRecipe.AddRating(3);
-        Debug.Assert(Math.Abs(testRecipe.GetAverageRating() - 4.0) < 0.001, "Error: GetAverageRating failed");
-    }
-}
  
 // Additional functions like SearchRecipesOrIngredients, UpdateRecipeOrIngredientInformation, etc., will be implemented here
  /*

@@ -7,11 +7,11 @@ public class Ingredient
 {
     // Properties with getters and setters
     public string Name { get; set; } // Stores the name of the ingredient
-    public string Quantity { get; set; } // Stores the quantity of the ingredient (e.g., 100g, 1 cup)
+    public int Quantity { get; set; } // Stores the quantity of the ingredient (e.g., 100g, 1 cup)
 
     // Constructor
     // Initializes a new instance of the Ingredient class with the specified name and quantity
-    public Ingredient(string name, string quantity)
+    public Ingredient(string name, int quantity)
     {
         Name = name;
         Quantity = quantity;
@@ -28,7 +28,7 @@ public class Ingredient
     public static void RunTests()
     {
         // Create a test Ingredient instance
-        Ingredient testIngredient = new Ingredient("Test Ingredient", "200g");
+        Ingredient testIngredient = new Ingredient("Test Ingredient", 200);
 
         // Test Name property
         Debug.Assert(testIngredient.Name == "Test Ingredient", "Error: Name getter failed.");
@@ -36,11 +36,16 @@ public class Ingredient
         Debug.Assert(testIngredient.Name == "Updated Ingredient", "Error: Name setter failed.");
 
         // Test Quantity property
-        Debug.Assert(testIngredient.Quantity == "200g", "Error: Quantity getter failed.");
-        testIngredient.Quantity = "300g";
-        Debug.Assert(testIngredient.Quantity == "300g", "Error: Quantity setter failed.");
+        Debug.Assert(testIngredient.Quantity == 200, "Error: Quantity getter failed.");
+        testIngredient.Quantity = 300;
+        Debug.Assert(testIngredient.Quantity == 300, "Error: Quantity setter failed.");
 
         Console.WriteLine("All Ingredient class tests passed.");
+    }
+
+    public string GetName()
+    {
+        return this.Name;
     }
 }
 

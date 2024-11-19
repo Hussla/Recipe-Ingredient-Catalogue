@@ -110,6 +110,11 @@ public class Recipe
 
         Console.WriteLine("All Recipe class tests passed.");
     }
+
+    internal object GetCuisine()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 /*
