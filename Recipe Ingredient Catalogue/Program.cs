@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
@@ -62,15 +62,15 @@ class Program
     {
         if (isAdmin)
         {
-            Console.WriteLine("6 - Add a new Recipe");
-            Console.WriteLine("7 - Add a new Ingredient");
-            Console.WriteLine("8 - Update Recipe or Ingredient Information");
-            Console.WriteLine("9 - Save Data");
-            Console.WriteLine("10 - Remove Recipe or Ingredient");
-            Console.WriteLine("11 - Rate a Recipe");
-            Console.WriteLine("12 - Sort Recipes or Ingredients");
-            Console.WriteLine("13 - Export Report");
-            Console.WriteLine("14 - Exit");
+            Console.WriteLine("7 - Add a new Recipe");
+            Console.WriteLine("8 - Add a new Ingredient");
+            Console.WriteLine("9 - Update Recipe or Ingredient Information");
+            Console.WriteLine("10 - Save Data");
+            Console.WriteLine("11 - Remove Recipe or Ingredient");
+            Console.WriteLine("12 - Rate a Recipe");
+            Console.WriteLine("13 - Sort Recipes or Ingredients");
+            Console.WriteLine("14 - Export Report");
+            Console.WriteLine("15 - Exit");
 
         }
         else
@@ -79,7 +79,8 @@ class Program
             Console.WriteLine("2 - Display Recipes by Cuisine");
             Console.WriteLine("3 - Search Recipes or Ingredients");
             Console.WriteLine("4 - Display Recipes by Ingredient");
-            Console.WriteLine("5 - Exit");
+            Console.WriteLine("5 - Load Recipes and Ingredients");
+Console.WriteLine("6 - Exit");
 
         }
         Console.WriteLine("=========================================");
@@ -95,13 +96,13 @@ class Program
             choice = Console.ReadLine();
 
             // Validate user input
-            if (int.TryParse(choice, out int numChoice) && numChoice >= 1 && numChoice <= 14)
+            if (int.TryParse(choice, out int numChoice) && numChoice >= 1 && (numChoice <= 14 || (isAdmin && numChoice == 15)))
             {
                 return choice;
             }
             else
             {
-                Console.WriteLine("Invalid choice. Please enter a number between 1 and 14.");
+                Console.WriteLine($"Invalid choice. Please enter a number between 1 and {(isAdmin ? "15" : "14")}.");
             }
         }
     }
@@ -109,7 +110,7 @@ class Program
     // Handles the user's menu choice
     static void HandleUserChoice(string choice, Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients, bool isAdmin)
     {
-        if (!isAdmin && int.TryParse(choice, out int numChoice) && numChoice > 5)
+        if (!isAdmin && int.TryParse(choice, out int numChoice) && numChoice > 5 && numChoice != 6)
         {
             Console.WriteLine("You do not have permission to perform this action. Please contact an administrator.");
             return;
@@ -133,30 +134,33 @@ class Program
                 LoadRecipesAndIngredients(recipes, ingredients); // Call function to load recipes and ingredients
                 break;
             case "6":
-                SearchRecipesOrIngredients(recipes, ingredients); // Call function to search recipes or ingredients
+                ExitProgram(); // Exit the program || for the user to exit the program
                 break;
             case "7":
-                UpdateRecipeOrIngredientInformation(recipes, ingredients); // Call function to update recipe or ingredient information
+                AddNewIngredient(ingredients); // Call function to add a new ingredient
                 break;
             case "8":
-                DisplayRecipesByIngredient(recipes, ingredients); // Call function to display recipes by ingredient
+                UpdateRecipeOrIngredientInformation(recipes, ingredients); // Call function to update recipe or ingredient information
                 break;
             case "9":
-                SaveDataToFile(recipes, ingredients); // Save data
+                DisplayRecipesByIngredient(recipes, ingredients); // Call function to display recipes by ingredient
                 break;
             case "10":
-                RemoveRecipeOrIngredient(recipes, ingredients); // Remove recipe or ingredient
+                SaveDataToFile(recipes, ingredients); // Save data
                 break;
             case "11":
-                RateRecipe(recipes); // Rate a recipe
+                RemoveRecipeOrIngredient(recipes, ingredients); // Remove recipe or ingredient
                 break;
             case "12":
-                SortRecipesOrIngredients(recipes, ingredients); // Sort recipes or ingredients
+                RateRecipe(recipes); // Rate a recipe
                 break;
             case "13":
-                ExportReport(recipes, ingredients); // Export report
+                SortRecipesOrIngredients(recipes, ingredients); // Sort recipes or ingredients
                 break;
             case "14":
+                ExportReport(recipes, ingredients); // Export report
+                break;
+            case "15":
                 ExitProgram(); // Exit the program
                 break;
             default:
@@ -218,14 +222,57 @@ class Program
                 return;
             }
 
-            int quantity = GetIntInput("Enter the quantity available: ");
-            Ingredient newIngredient = new Ingredient(ingredientName, quantity);
-            ingredients[ingredientName] = newIngredient;
-            Console.WriteLine("Ingredient added successfully!");
+            Console.WriteLine("Is this a perishable ingredient? (yes/no)");
+            string isPerishable = Console.ReadLine().ToLower();
+
+            if (isPerishable == "yes")
+            {
+                DateTime expirationDate;
+                while (true)
+                {
+                    Console.Write("Enter the expiration date (yyyy-MM-dd): ");
+                    if (DateTime.TryParse(Console.ReadLine(), out expirationDate))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid date format. Please try again.");
+                    }
+                }
+
+                PerishableIngredient newPerishableIngredient = new PerishableIngredient(ingredientName, GetIntInput("Enter the quantity available: "), expirationDate);
+                ingredients[ingredientName] = newPerishableIngredient;
+                Console.WriteLine("Perishable Ingredient added successfully!");
+            }
+            else
+            {
+                Ingredient newIngredient = new Ingredient(ingredientName, GetIntInput("Enter the quantity available: "));
+                ingredients[ingredientName] = newIngredient;
+                Console.WriteLine("Ingredient added successfully!");
+            }
         }
         catch (Exception e)
         {
             Console.WriteLine("An error occurred: " + e.Message); // Handle unexpected errors
+        }
+    }
+
+    static void DisplayAllIngredients(Dictionary<string, Ingredient> ingredients)
+    {
+        // Function to display all ingredients
+        if (ingredients.Count == 0)
+        {
+            Console.WriteLine("No ingredients available in the catalogue.");
+        }
+        else
+        {
+            Console.WriteLine("Listing all ingredients:");
+            foreach (Ingredient ingredient in ingredients.Values)
+            {
+                ingredient.DisplayInfo(); // Call DisplayInfo method of Ingredient class to show ingredient details
+                Console.WriteLine();
+            }
         }
     }
 
@@ -267,95 +314,95 @@ class Program
         }
     }
 
-    static void LoadRecipesAndIngredients(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
+static void LoadRecipesAndIngredients(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
+{
+    // Function to load recipes and ingredients from a file
+    string filename = GetInput("What file would you like to load?");
+
+    if (File.Exists(filename))
     {
-        // Function to load recipes and ingredients from a file
-        string filename = GetInput("What file would you like to load?");
+        Console.WriteLine($"Loading data from '{filename}'...");
+        List<string> lines = File.ReadAllLines(filename).ToList();
 
-        if (File.Exists(filename))
+        bool isRecipeSection = false;
+        bool isIngredientSection = false;
+
+        foreach (string line in lines)
         {
-            Console.WriteLine($"Loading data from '{filename}'...");
-            List<string> lines = File.ReadAllLines(filename).ToList();
-
-            bool isRecipeSection = false;
-            bool isIngredientSection = false;
-
-            foreach (string line in lines)
+            if (line.Trim() == "Recipes:")
             {
-                if (line.Trim() == "Recipes:")
+                // Start parsing the Recipes section
+                isRecipeSection = true;
+                isIngredientSection = false;
+                Console.WriteLine("Found Recipes section");
+            }
+            else if (line.Trim() == "Ingredients:")
+            {
+                // Start parsing the Ingredients section
+                isRecipeSection = false;
+                isIngredientSection = true;
+                Console.WriteLine("Found Ingredients section");
+            }
+            else if (!string.IsNullOrWhiteSpace(line))
+            {
+                if (isRecipeSection)
                 {
-                    // Start parsing the Recipes section
-                    isRecipeSection = true;
-                    isIngredientSection = false;
-                    Console.WriteLine("Found Recipes section");
-                }
-                else if (line.Trim() == "Ingredients:")
-                {
-                    // Start parsing the Ingredients section
-                    isRecipeSection = false;
-                    isIngredientSection = true;
-                    Console.WriteLine("Found Ingredients section");
-                }
-                else if (!string.IsNullOrWhiteSpace(line))
-                {
-                    if (isRecipeSection)
+                    try
                     {
-                        try
+                        var parts = line.Split(",");
+                        if (parts.Length >= 2)
                         {
-                            var parts = line.Split(",");
-                            if (parts.Length >= 2)
-                            {
-                                string name = parts[0].Trim();
-                                string cuisine = parts[1].Trim();
-                                Recipe newRecipe = new Recipe(name, cuisine);
-                                recipes[name] = newRecipe;
-                                Console.WriteLine($"Loaded Recipe: {name}");
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Incorrect recipe format: {line}");
-                            }
+                            string name = parts[0].Trim();
+                            string cuisine = parts[1].Trim();
+                            Recipe newRecipe = new Recipe(name, cuisine);
+                            recipes[name] = newRecipe;
+                            Console.WriteLine($"Loaded Recipe: {name}");
                         }
-                        catch (Exception e)
+                        else
                         {
-                            Console.WriteLine($"Error parsing recipe: {line}. Error: {e.Message}");
+                            Console.WriteLine($"Incorrect recipe format: {line}");
                         }
                     }
-                    else if (isIngredientSection)
+                    catch (Exception e)
                     {
-                        try
+                        Console.WriteLine($"Error parsing recipe: {line}. Error: {e.Message}");
+                    }
+                }
+                else if (isIngredientSection)
+                {
+                    try
+                    {
+                        var parts = line.Split(",");
+                        if (parts.Length >= 2)
                         {
-                            var parts = line.Split(",");
-                            if (parts.Length >= 2)
-                            {
-                                string name = parts[0].Trim();
-                                int quantity = GetIntInput($"Enter the quantity for '{name}': ");
-                                Ingredient newIngredient = new Ingredient(name, quantity);
-                                ingredients[name] = newIngredient;
-                                Console.WriteLine($"Loaded Ingredient: {name}");
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Incorrect ingredient format: {line}");
-                            }
+                            string name = parts[0].Trim();
+                            int quantity = int.Parse(parts[1].Trim());
+                            Ingredient newIngredient = new Ingredient(name, quantity);
+                            ingredients[name] = newIngredient;
+                            Console.WriteLine($"Loaded Ingredient: {name}");
                         }
-                        catch (Exception e)
+                        else
                         {
-                            Console.WriteLine($"Error parsing ingredient: {line}. Error: {e.Message}");
+                            Console.WriteLine($"Incorrect ingredient format: {line}");
                         }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine($"Error parsing ingredient: {line}. Error: {e.Message}");
                     }
                 }
             }
+        }
 
-            // Display a success message after loading data
-            Console.WriteLine("Data loaded successfully.");
-        }
-        else
-        {
-            // Inform the user if the specified file does not exist
-            Console.WriteLine($"Sorry, '{filename}' does not exist.");
-        }
+        // Display a success message after loading data
+        Console.WriteLine("Data loaded successfully.");
     }
+    else
+    {
+        // Inform the user if the specified file does not exist
+        Console.WriteLine($"Sorry, '{filename}' does not exist.");
+    }
+}
 
     static void SearchRecipesOrIngredients(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
     {
@@ -399,30 +446,30 @@ class Program
         if (choice == "recipe")
         {
             string recipeName = GetInput("Enter the name of the recipe to update:");
-            if (recipes.ContainsKey(recipeName))
-            {
-                string newCuisine = GetInput("Enter new cuisine:");
-                recipes[recipeName].SetCuisine(newCuisine);
-                Console.WriteLine("Recipe updated successfully!");
-            }
-            else
-            {
-                Console.WriteLine("Recipe not found.");
-            }
+if (recipes.ContainsKey(recipeName))
+{
+    string newCuisine = GetInput("Enter new cuisine:");
+    recipes[recipeName].SetCuisine(newCuisine);
+    Console.WriteLine("Recipe updated successfully!");
+}
+else
+{
+    Console.WriteLine("Recipe not found.");
+}
         }
         else if (choice == "ingredient")
         {
             string ingredientName = GetInput("Enter the name of the ingredient to update:");
-            if (ingredients.ContainsKey(ingredientName))
-            {
-                int newQuantity = GetIntInput("Enter new quantity available:");
-                ingredients[ingredientName].SetQuantity(newQuantity);
-                Console.WriteLine("Ingredient updated successfully!");
-            }
-            else
-            {
-                Console.WriteLine("Ingredient not found.");
-            }
+if (ingredients.ContainsKey(ingredientName))
+{
+    int newQuantity = GetIntInput("Enter new quantity available:");
+    ingredients[ingredientName].SetQuantity(newQuantity);
+    Console.WriteLine("Ingredient updated successfully!");
+}
+else
+{
+    Console.WriteLine("Ingredient not found.");
+}
         }
         else
         {
@@ -545,96 +592,96 @@ class Program
         }
     }
 
-    static void SortRecipesOrIngredients(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
-    {
-        string choice = GetInput("Do you want to sort Recipes or Ingredients? (Enter 'Recipe' or 'Ingredient'):").ToLower();
+static void SortRecipesOrIngredients(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
+{
+    string choice = GetInput("Do you want to sort Recipes or Ingredients? (Enter 'Recipe' or 'Ingredient'):").ToLower();
 
-        if (choice == "recipe")
+    if (choice == "recipe")
+    {
+        var sortedRecipes = recipes.Values.OrderBy(r => r.GetName()).ToList();
+        Console.WriteLine("Recipes sorted alphabetically:");
+        foreach (var recipe in sortedRecipes)
         {
-            var sortedRecipes = recipes.Values.OrderBy(r => r.GetName()).ToList();
-            Console.WriteLine("Recipes sorted alphabetically:");
-            foreach (var recipe in sortedRecipes)
-            {
-                recipe.DisplayInfo();
-                Console.WriteLine();
-            }
-        }
-        else if (choice == "ingredient")
-        {
-            var sortedIngredients = ingredients.Values.OrderBy(i => i.GetName()).ToList();
-            Console.WriteLine("Ingredients sorted alphabetically:");
-            foreach (var ingredient in sortedIngredients)
-            {
-                ingredient.DisplayInfo();
-                Console.WriteLine();
-            }
-        }
-        else
-        {
-            Console.WriteLine("Invalid choice. Please enter either 'Recipe' or 'Ingredient'.");
+            recipe.DisplayInfo();
+            Console.WriteLine();
         }
     }
-
-    static void ExportReport(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
+    else if (choice == "ingredient")
     {
-        string filename = GetInput("Enter the filename to export the report to:");
-
-        try
+        var sortedIngredients = ingredients.Values.OrderBy(i => i.GetName()).ToList();
+        Console.WriteLine("Ingredients sorted alphabetically:");
+        foreach (var ingredient in sortedIngredients)
         {
-            List<string> reportLines = new List<string>
-            {
-                "Recipe and Ingredient Catalogue Report",
-                "========================================="
-            };
-
-            // Add recipe details to the report
-            reportLines.Add("\nRecipes:");
-            foreach (var recipe in recipes.Values)
-            {
-                reportLines.Add($"Name: {recipe.GetName()}, Cuisine: {recipe.GetCuisine()}, Average Rating: {recipe.GetAverageRating()}");
-            }
-
-            // Add ingredient details to the report
-            reportLines.Add("\nIngredients:");
-            foreach (var ingredient in ingredients.Values)
-            {
-                reportLines.Add($"Name: {ingredient.GetName()}, Quantity: {ingredient.GetQuantity()}");
-            }
-
-            File.WriteAllLines(filename, reportLines);
-            Console.WriteLine("Report exported successfully.");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("An error occurred while exporting the report: " + e.Message);
+            ingredient.DisplayInfo();
+            Console.WriteLine();
         }
     }
-
-    static void ExitProgram()
+    else
     {
-        Console.WriteLine("Goodbye!");
-        Environment.Exit(0);
+        Console.WriteLine("Invalid choice. Please enter either 'Recipe' or 'Ingredient'.");
     }
+}
 
-    // Helper methods to reduce code duplication and improve readability/maintainability of the program.
-    // GetInput() and GetIntInput() are used to handle user input and validation.    
-    static string GetInput(string prompt)
+static void ExportReport(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
+{
+    string filename = GetInput("Enter the filename to export the report to:");
+
+    try
+    {
+        List<string> reportLines = new List<string>
+        {
+            "Recipe and Ingredient Catalogue Report",
+            "========================================="
+        };
+
+        // Add recipe details to the report
+        reportLines.Add("\nRecipes:");
+        foreach (var recipe in recipes.Values.OrderBy(r => r.GetName()))
+        {
+            reportLines.Add($"Name: {recipe.GetName()}, Cuisine: {recipe.GetCuisine()}, Average Rating: {recipe.GetAverageRating():F1}");
+        }
+
+        // Add ingredient details to the report
+        reportLines.Add("\nIngredients:");
+        foreach (var ingredient in ingredients.Values.OrderBy(i => i.GetName()))
+        {
+            reportLines.Add($"Name: {ingredient.GetName()}, Quantity: {ingredient.GetQuantity()}");
+        }
+
+        File.WriteAllLines(filename, reportLines);
+        Console.WriteLine("Report exported successfully.");
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine("An error occurred while exporting the report: " + e.Message);
+    }
+}
+
+static void ExitProgram()
+{
+    Console.WriteLine("Goodbye!");
+    Environment.Exit(0);
+}
+
+// Helper methods to reduce code duplication and improve readability/maintainability of the program.
+// GetInput() and GetIntInput() are used to handle user input and validation.    
+static string GetInput(string prompt)
+{
+    Console.Write(prompt);
+    return Console.ReadLine();
+}
+
+static int GetIntInput(string prompt)
+{
+    while (true)
     {
         Console.Write(prompt);
-        return Console.ReadLine();
+        if (int.TryParse(Console.ReadLine(), out int value))
+            return value;
+        else
+            Console.WriteLine("Invalid input. Please enter a valid integer.");
     }
-
-    static int GetIntInput(string prompt)
-    {
-        while (true)
-        {
-            Console.Write(prompt);
-            if (int.TryParse(Console.ReadLine(), out int value))
-                return value;
-            else
-                Console.WriteLine("Invalid input. Please enter a valid integer.");
-        }
-    }
+}
 }
 
 // Ingredient Class Definition
@@ -655,7 +702,8 @@ public class Ingredient
     public string GetName() => name;
     public int GetQuantity() => quantity;
     public void SetQuantity(int quantity) => this.quantity = quantity;
-    public void DisplayInfo()
+    public void SetName(string name) => this.name = name;
+    public virtual void DisplayInfo()
     {
         Console.WriteLine($"Ingredient: {name}, Quantity: {quantity}");
     }
@@ -668,6 +716,51 @@ public class Ingredient
         Debug.Assert(testIngredient.GetQuantity() == 5, "Error: GetQuantity failed");
         testIngredient.SetQuantity(10);
         Debug.Assert(testIngredient.GetQuantity() == 10, "Error: SetQuantity failed");
+    }
+}
+
+// Perishable Ingredient Class Definition
+public class PerishableIngredient : Ingredient
+{
+    // Properties with getters and setters
+    public DateTime ExpirationDate { get; set; } // Stores the expiration date of the ingredient
+
+    // Constructor
+    // Initializes a new instance of the PerishableIngredient class with the specified name, quantity, and expiration date
+    public PerishableIngredient(string name, int quantity, DateTime expirationDate) : base(name, quantity)
+    {
+        ExpirationDate = expirationDate;
+    }
+
+    // Member Functions
+    // Displays detailed information about the perishable ingredient, including its name, quantity, and expiration date
+    public override void DisplayInfo()
+    {
+        base.DisplayInfo();
+        Console.WriteLine($"Expiration Date: {ExpirationDate.ToShortDateString()}");
+    }
+
+    // Unit Tests
+    public static void RunTests()
+    {
+        PerishableIngredient testPerishableIngredient = new PerishableIngredient("Test Perishable Ingredient", 100, DateTime.Now.AddDays(7));
+
+        // Test Name property
+        Debug.Assert(testPerishableIngredient.GetName() == "Test Perishable Ingredient", "Error: Name getter failed.");
+        testPerishableIngredient.SetName("Updated Perishable Ingredient");
+        Debug.Assert(testPerishableIngredient.GetName() == "Updated Perishable Ingredient", "Error: Name setter failed.");
+
+        // Test Quantity property
+        Debug.Assert(testPerishableIngredient.GetQuantity() == 100, "Error: Quantity getter failed.");
+        testPerishableIngredient.SetQuantity(200);
+        Debug.Assert(testPerishableIngredient.GetQuantity() == 200, "Error: Quantity setter failed.");
+
+        // Test ExpirationDate property
+        Debug.Assert(testPerishableIngredient.ExpirationDate.Date == DateTime.Now.AddDays(7).Date, "Error: ExpirationDate getter failed.");
+        testPerishableIngredient.ExpirationDate = DateTime.Now.AddDays(14);
+        Debug.Assert(testPerishableIngredient.ExpirationDate.Date == DateTime.Now.AddDays(14).Date, "Error: ExpirationDate setter failed.");
+
+        Console.WriteLine("All PerishableIngredient class tests passed.");
     }
 }
 
@@ -733,7 +826,7 @@ public class Recipe
         Debug.Assert(Math.Abs(testRecipe.GetAverageRating() - 4.0) < 0.001, "Error: GetAverageRating failed");
     }
 }
- 
+
 // Additional functions like SearchRecipesOrIngredients, UpdateRecipeOrIngredientInformation, etc., will be implemented here
  /*
     

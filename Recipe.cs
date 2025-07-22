@@ -46,7 +46,7 @@ public class Recipe
         Console.WriteLine("Ingredients:");
         foreach (Ingredient ingredient in ingredients)
         {
-            Console.WriteLine("- " + ingredient.Name + " (" + ingredient.Quantity + ")");
+            ingredient.DisplayInfo(); // Call DisplayInfo method of Ingredient class to show ingredient details
         }
         Console.WriteLine("Average Rating: " + GetAverageRating());
     }
@@ -77,6 +77,12 @@ public class Recipe
         }
     }
 
+    // Checks if the recipe's average rating is above or equal to the specified rating
+    public bool HasRatingAboveOrEqual(double rating)
+    {
+        return GetAverageRating() >= rating;
+    }
+
     // Unit Tests
     public static void RunTests()
     {
@@ -98,7 +104,7 @@ public class Recipe
         Debug.Assert(testRecipe.PreparationTime == 45, "Error: PreparationTime setter failed.");
 
         // Test AddIngredient and GetIngredients
-        Ingredient testIngredient = new Ingredient("Test Ingredient", "100g");
+        Ingredient testIngredient = new Ingredient("Test Ingredient", 100);
         testRecipe.AddIngredient(testIngredient);
         Debug.Assert(testRecipe.GetIngredients().Count == 1, "Error: AddIngredient failed.");
         Debug.Assert(testRecipe.GetIngredients()[0] == testIngredient, "Error: GetIngredients failed.");
@@ -106,12 +112,15 @@ public class Recipe
         // Test AddRating and GetAverageRating
         testRecipe.AddRating(5);
         testRecipe.AddRating(4);
-        Debug.Assert(testRecipe.GetAverageRating() == 4.5, "Error: GetAverageRating failed.");
+        Debug.Assert(Math.Abs(testRecipe.GetAverageRating() - 4.5) < 0.001, "Error: GetAverageRating failed.");
+
+        // Test HasRatingAboveOrEqual
+        Debug.Assert(testRecipe.HasRatingAboveOrEqual(4.0), "Error: HasRatingAboveOrEqual failed for rating 4.0");
+        Debug.Assert(!testRecipe.HasRatingAboveOrEqual(5.0), "Error: HasRatingAboveOrEqual failed for rating 5.0");
 
         Console.WriteLine("All Recipe class tests passed.");
     }
 }
-
 /*
 Usage:
 The Recipe class can be instantiated with specific names, cuisines, and preparation times for different recipes.
