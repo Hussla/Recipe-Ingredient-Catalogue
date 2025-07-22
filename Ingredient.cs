@@ -72,9 +72,9 @@ public new static void RunTests()
     PerishableIngredient testPerishableIngredient = new PerishableIngredient("Test Perishable Ingredient", 100, DateTime.Now.AddDays(7));
 
     // Test Name property
-Debug.Assert(testPerishableIngredient.Name == "Test Perishable Ingredient", "Error: Name getter failed.");
-testPerishableIngredient.Name = "Updated Perishable Ingredient";
-Debug.Assert(testPerishableIngredient.Name == "Updated Perishable Ingredient", "Error: Name setter failed.");
+    Debug.Assert(testPerishableIngredient.Name == "Test Perishable Ingredient", "Error: Name getter failed.");
+    testPerishableIngredient.Name = "Updated Perishable Ingredient";
+    Debug.Assert(testPerishableIngredient.Name == "Updated Perishable Ingredient", "Error: Name setter failed.");
 
     // Test Quantity property
     Debug.Assert(testPerishableIngredient.Quantity == 100, "Error: Quantity getter failed.");
