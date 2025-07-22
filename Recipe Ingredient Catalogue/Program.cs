@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+using RecipeIngredientCatalogue.Services;
 
 // Extension method for Chunk functionality (for older .NET versions)
 public static class EnumerableExtensions
@@ -34,7 +33,10 @@ class Program
         // User authentication mode setup
         if (args.Length < 1)
         {
-            Console.WriteLine("Usage: RecipeCatalogue <mode>"); // for example: dotnet run --project "Recipe Ingredient Catalogue" admin || user
+            Console.WriteLine("Usage: RecipeCatalogue <mode>"); // for example: dotnet run --project "Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj" admin || dotnet run --project "Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj" user
+
+                                                                                
+
 
             Console.WriteLine("<mode> should be either 'admin' or 'user'");
             return;
@@ -82,126 +84,79 @@ class Program
     // Displays the menu options to the user
     static void DisplayMenu(bool isAdmin)
     {
-        if (isAdmin)
-        {
-            Console.WriteLine("7 - Add a new Recipe");
-            Console.WriteLine("8 - Add a new Ingredient");
-            Console.WriteLine("9 - Display all Ingredients");
-            Console.WriteLine("10 - Update Recipe or Ingredient Information");
-            Console.WriteLine("11 - Save Data (JSON)");
-            Console.WriteLine("12 - Save Data (Binary)");
-            Console.WriteLine("13 - Load Data (Binary)");
-            Console.WriteLine("14 - Remove Recipe or Ingredient");
-            Console.WriteLine("15 - Rate a Recipe");
-            Console.WriteLine("16 - Sort Recipes or Ingredients");
-            Console.WriteLine("17 - Export Report");
-            Console.WriteLine("18 - Performance Benchmark");
-            Console.WriteLine("19 - Parallel Processing Demo");
-            Console.WriteLine("20 - Exit");
-
-        }
-        else
-        {
-            Console.WriteLine("1 - Display all Recipes");
-            Console.WriteLine("2 - Display all Ingredients");
-            Console.WriteLine("3 - Display Recipes by Cuisine");
-            Console.WriteLine("4 - Search Recipes or Ingredients");
-            Console.WriteLine("5 - Display Recipes by Ingredient");
-            Console.WriteLine("6 - Load Recipes and Ingredients");
-            Console.WriteLine("7 - Exit");
-
-        }
-        Console.WriteLine("=========================================");
+        MenuService.DisplayMenu(isAdmin);
     }
 
     // Gets the user's menu choice
     static string GetUserChoice(bool isAdmin)
     {
-        string choice;
-        while (true)
-        {
-            Console.Write("Enter your choice: ");
-            choice = Console.ReadLine();
-
-            // Validate user input
-            if (int.TryParse(choice, out int numChoice) && numChoice >= 1 && (numChoice <= 7 || (isAdmin && numChoice <= 20)))
-            {
-                return choice;
-            }
-            else
-            {
-                Console.WriteLine($"Invalid choice. Please enter a number between 1 and {(isAdmin ? "20" : "7")}.");
-            }
-        }
+        return MenuService.GetUserChoice(isAdmin);
     }
 
     // Handles the user's menu choice
     static void HandleUserChoice(string choice, Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients, bool isAdmin)
     {
-        if (!isAdmin && int.TryParse(choice, out int numChoice) && numChoice > 6 && numChoice != 7)
-        {
-            Console.WriteLine("You do not have permission to perform this action. Please contact an administrator.");
+        if (!MenuService.ValidateAdminPermission(choice, isAdmin))
             return;
-        }
 
         switch (choice)
         {
             case "1":
-                DisplayAllRecipes(recipes);
+                RecipeService.DisplayAllRecipes(recipes);
                 break;
             case "2":
-                if (isAdmin) AddNewIngredient(ingredients); else DisplayAllIngredients(ingredients);
+                if (isAdmin) IngredientService.AddNewIngredient(ingredients); else IngredientService.DisplayAllIngredients(ingredients);
                 break;
             case "3":
-                if (isAdmin) DisplayAllRecipes(recipes); else DisplayRecipesByCuisine(recipes);
+                if (isAdmin) RecipeService.DisplayAllRecipes(recipes); else RecipeService.DisplayRecipesByCuisine(recipes);
                 break;
             case "4":
-                if (isAdmin) DisplayRecipesByCuisine(recipes); else SearchRecipesOrIngredients(recipes, ingredients);
+                if (isAdmin) RecipeService.DisplayRecipesByCuisine(recipes); else SearchRecipesOrIngredients(recipes, ingredients);
                 break;
             case "5":
-                if (isAdmin) LoadRecipesAndIngredients(recipes, ingredients); else DisplayRecipesByIngredient(recipes, ingredients);
+                if (isAdmin) LoadRecipesAndIngredients(recipes, ingredients); else RecipeService.DisplayRecipesByIngredient(recipes, ingredients);
                 break;
             case "6":
                 if (isAdmin) ExitProgram(); else LoadRecipesAndIngredients(recipes, ingredients);
                 break;
             case "7":
-                if (isAdmin) AddNewRecipe(recipes, ingredients); else ExitProgram();
+                if (isAdmin) RecipeService.AddNewRecipe(recipes, ingredients); else ExitProgram();
                 break;
             case "8":
-                AddNewIngredient(ingredients);
+                IngredientService.AddNewIngredient(ingredients);
                 break;
             case "9":
-                DisplayAllIngredients(ingredients);
+                IngredientService.DisplayAllIngredients(ingredients);
                 break;
             case "10":
                 UpdateRecipeOrIngredientInformation(recipes, ingredients);
                 break;
             case "11":
-                SaveDataToFile(recipes, ingredients); // JSON Save
+                DataService.SaveDataToJsonFile(recipes, ingredients, ValidationService.GetInput("Enter the filename to save data to (e.g., data.json): "));
                 break;
             case "12":
-                SaveDataToBinaryFile(recipes, ingredients); // Binary Save
+                DataService.SaveDataToBinaryFile(recipes, ingredients, ValidationService.GetInput("Enter the filename to save binary data to (e.g., data.dat): "));
                 break;
             case "13":
-                LoadDataFromBinaryFile(recipes, ingredients); // Binary Load
+                DataService.LoadDataFromBinaryFile(recipes, ingredients, ValidationService.GetInput("Enter the filename to load binary data from (e.g., data.dat): "));
                 break;
             case "14":
                 RemoveRecipeOrIngredient(recipes, ingredients);
                 break;
             case "15":
-                RateRecipe(recipes);
+                RecipeService.RateRecipe(recipes);
                 break;
             case "16":
                 SortRecipesOrIngredients(recipes, ingredients);
                 break;
             case "17":
-                ExportReport(recipes, ingredients);
+                DataService.ExportReport(recipes, ingredients, ValidationService.GetInput("Enter the filename to export the report to: "));
                 break;
             case "18":
-                PerformanceBenchmark(recipes, ingredients);
+                PerformanceService.RunPerformanceBenchmark(recipes, ingredients);
                 break;
             case "19":
-                ParallelProcessingDemo(recipes, ingredients);
+                PerformanceService.RunParallelProcessingDemo(recipes, ingredients);
                 break;
             case "20":
                 ExitProgram();
@@ -225,7 +180,8 @@ class Program
             }
 
             string cuisine = GetInput("Enter the cuisine type: ");
-            Recipe newRecipe = new Recipe(recipeName, cuisine);
+            int preparationTime = GetIntInput("Enter the preparation time (minutes): ");
+            Recipe newRecipe = new Recipe(recipeName, cuisine, preparationTime);
 
             while (true)
             {
@@ -340,7 +296,7 @@ class Program
     {
         // Function to display recipes by cuisine type
         string cuisine = GetInput("Enter the cuisine to filter by: ");
-        var filteredRecipes = recipes.Values.Where(r => r.GetCuisine().Equals(cuisine, StringComparison.OrdinalIgnoreCase)).ToList();
+        var filteredRecipes = recipes.Values.Where(r => r.Cuisine.Equals(cuisine, StringComparison.OrdinalIgnoreCase)).ToList();
 
         if (filteredRecipes.Count == 0)
         {
@@ -423,70 +379,22 @@ static void LoadRecipesAndIngredients(Dictionary<string, Recipe> recipes, Dictio
 
     static void SearchRecipesOrIngredients(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
     {
-        // Function to search recipes or ingredients by name
-        string searchTerm = GetInput("Enter search term (recipe name or ingredient name):");
-
-        var matchingRecipes = recipes.Values.Where(r => r.GetName().ToLower().Contains(searchTerm)).ToList();
-        if (matchingRecipes.Count > 0)
-        {
-            Console.WriteLine("Matching Recipes:");
-            foreach (var recipe in matchingRecipes)
-            {
-                recipe.DisplayInfo();
-            }
-        }
-        else
-        {
-            Console.WriteLine("No matching recipes found.");
-        }
-
-        var matchingIngredients = ingredients.Values.Where(i => i.GetName().ToLower().Contains(searchTerm)).ToList();
-        if (matchingIngredients.Count > 0)
-        {
-            Console.WriteLine("Matching Ingredients:");
-            foreach (var ingredient in matchingIngredients)
-            {
-                ingredient.DisplayInfo();
-            }
-        }
-        else
-        {
-            Console.WriteLine("No matching ingredients found.");
-        }
+        string searchTerm = ValidationService.GetInput("Enter search term (recipe name or ingredient name): ");
+        RecipeService.SearchRecipes(recipes, searchTerm);
+        IngredientService.SearchIngredients(ingredients, searchTerm);
     }
 
     static void UpdateRecipeOrIngredientInformation(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
     {
-        // Function to update information of a recipe or ingredient
-        string choice = GetInput("Do you want to update a Recipe or an Ingredient? (Enter 'Recipe' or 'Ingredient'):").ToLower();
+        string choice = ValidationService.GetInput("Do you want to update a Recipe or an Ingredient? (Enter 'Recipe' or 'Ingredient'): ").ToLower();
 
         if (choice == "recipe")
         {
-            string recipeName = GetInput("Enter the name of the recipe to update:");
-if (recipes.ContainsKey(recipeName))
-{
-    string newCuisine = GetInput("Enter new cuisine:");
-    recipes[recipeName].SetCuisine(newCuisine);
-    Console.WriteLine("Recipe updated successfully!");
-}
-else
-{
-    Console.WriteLine("Recipe not found.");
-}
+            RecipeService.UpdateRecipe(recipes);
         }
         else if (choice == "ingredient")
         {
-            string ingredientName = GetInput("Enter the name of the ingredient to update:");
-if (ingredients.ContainsKey(ingredientName))
-{
-    int newQuantity = GetIntInput("Enter new quantity available:");
-    ingredients[ingredientName].SetQuantity(newQuantity);
-    Console.WriteLine("Ingredient updated successfully!");
-}
-else
-{
-    Console.WriteLine("Ingredient not found.");
-}
+            IngredientService.UpdateIngredient(ingredients);
         }
         else
         {
@@ -499,7 +407,7 @@ else
         string ingredientName = GetInput("Enter the ingredient name to find recipes:");
         if (ingredients.ContainsKey(ingredientName))
         {
-            var recipesWithIngredient = recipes.Values.Where(r => r.GetIngredients().Any(i => i.GetName().Equals(ingredientName, StringComparison.OrdinalIgnoreCase))).ToList();
+            var recipesWithIngredient = recipes.Values.Where(r => r.GetIngredients().Any(i => i.Name.Equals(ingredientName, StringComparison.OrdinalIgnoreCase))).ToList();
 
             if (recipesWithIngredient.Count > 0)
             {
@@ -558,33 +466,15 @@ static void SaveDataToFile(Dictionary<string, Recipe> recipes, Dictionary<string
 
     static void RemoveRecipeOrIngredient(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
     {
-        string choice = GetInput("Do you want to remove a Recipe or an Ingredient? (Enter 'Recipe' or 'Ingredient'):").ToLower();
+        string choice = ValidationService.GetInput("Do you want to remove a Recipe or an Ingredient? (Enter 'Recipe' or 'Ingredient'): ").ToLower();
 
         if (choice == "recipe")
         {
-            string recipeName = GetInput("Enter the name of the recipe to remove:");
-            if (recipes.ContainsKey(recipeName))
-            {
-                recipes.Remove(recipeName);
-                Console.WriteLine("Recipe removed successfully!");
-            }
-            else
-            {
-                Console.WriteLine("Recipe not found.");
-            }
+            RecipeService.RemoveRecipe(recipes);
         }
         else if (choice == "ingredient")
         {
-            string ingredientName = GetInput("Enter the name of the ingredient to remove:");
-            if (ingredients.ContainsKey(ingredientName))
-            {
-                ingredients.Remove(ingredientName);
-                Console.WriteLine("Ingredient removed successfully!");
-            }
-            else
-            {
-                Console.WriteLine("Ingredient not found.");
-            }
+            IngredientService.RemoveIngredient(ingredients);
         }
         else
         {
@@ -616,27 +506,15 @@ static void SaveDataToFile(Dictionary<string, Recipe> recipes, Dictionary<string
 
 static void SortRecipesOrIngredients(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
 {
-    string choice = GetInput("Do you want to sort Recipes or Ingredients? (Enter 'Recipe' or 'Ingredient'):").ToLower();
+    string choice = ValidationService.GetInput("Do you want to sort Recipes or Ingredients? (Enter 'Recipe' or 'Ingredient'): ").ToLower();
 
     if (choice == "recipe")
     {
-        var sortedRecipes = recipes.Values.OrderBy(r => r.GetName()).ToList();
-        Console.WriteLine("Recipes sorted alphabetically:");
-        foreach (var recipe in sortedRecipes)
-        {
-            recipe.DisplayInfo();
-            Console.WriteLine();
-        }
+        RecipeService.SortRecipes(recipes);
     }
     else if (choice == "ingredient")
     {
-        var sortedIngredients = ingredients.Values.OrderBy(i => i.GetName()).ToList();
-        Console.WriteLine("Ingredients sorted alphabetically:");
-        foreach (var ingredient in sortedIngredients)
-        {
-            ingredient.DisplayInfo();
-            Console.WriteLine();
-        }
+        IngredientService.SortIngredients(ingredients);
     }
     else
     {
@@ -658,16 +536,16 @@ static void ExportReport(Dictionary<string, Recipe> recipes, Dictionary<string, 
 
         // Add recipe details to the report
         reportLines.Add("\nRecipes:");
-        foreach (var recipe in recipes.Values.OrderBy(r => r.GetName()))
+        foreach (var recipe in recipes.Values.OrderBy(r => r.Name))
         {
-            reportLines.Add($"Name: {recipe.GetName()}, Cuisine: {recipe.GetCuisine()}, Average Rating: {recipe.GetAverageRating():F1}");
+            reportLines.Add($"Name: {recipe.Name}, Cuisine: {recipe.Cuisine}, Average Rating: {recipe.GetAverageRating():F1}");
         }
 
         // Add ingredient details to the report
         reportLines.Add("\nIngredients:");
-        foreach (var ingredient in ingredients.Values.OrderBy(i => i.GetName()))
+        foreach (var ingredient in ingredients.Values.OrderBy(i => i.Name))
         {
-            reportLines.Add($"Name: {ingredient.GetName()}, Quantity: {ingredient.GetQuantity()}");
+            reportLines.Add($"Name: {ingredient.Name}, Quantity: {ingredient.Quantity}");
         }
 
         File.WriteAllLines(filename, reportLines);
@@ -720,13 +598,13 @@ static void SaveDataToBinaryFile(Dictionary<string, Recipe> recipes, Dictionary<
             foreach (var kvp in recipes)
             {
                 writer.Write(kvp.Key); // Recipe name
-                writer.Write(kvp.Value.GetName());
-                writer.Write(kvp.Value.GetCuisine());
+                writer.Write(kvp.Value.Name);
+                writer.Write(kvp.Value.Cuisine);
                 writer.Write(kvp.Value.GetIngredients().Count);
                 foreach (var ingredient in kvp.Value.GetIngredients())
                 {
-                    writer.Write(ingredient.GetName());
-                    writer.Write(ingredient.GetQuantity());
+                    writer.Write(ingredient.Name);
+                    writer.Write(ingredient.Quantity);
                 }
             }
 
@@ -735,8 +613,8 @@ static void SaveDataToBinaryFile(Dictionary<string, Recipe> recipes, Dictionary<
             foreach (var kvp in ingredients)
             {
                 writer.Write(kvp.Key); // Ingredient name
-                writer.Write(kvp.Value.GetName());
-                writer.Write(kvp.Value.GetQuantity());
+                writer.Write(kvp.Value.Name);
+                writer.Write(kvp.Value.Quantity);
                 
                 // Check if it's a perishable ingredient
                 if (kvp.Value is PerishableIngredient perishable)
@@ -807,7 +685,7 @@ static void LoadDataFromBinaryFile(Dictionary<string, Recipe> recipes, Dictionar
                 string cuisine = reader.ReadString();
                 int ingredientCount2 = reader.ReadInt32();
 
-                Recipe recipe = new Recipe(name, cuisine);
+                Recipe recipe = new Recipe(name, cuisine, 30); // Default preparation time
                 for (int j = 0; j < ingredientCount2; j++)
                 {
                     string ingredientName = reader.ReadString();
@@ -848,13 +726,13 @@ static void PerformanceBenchmark(Dictionary<string, Recipe> recipes, Dictionary<
     // Benchmark 1: Sequential search
     Console.WriteLine("\n1. Sequential Search Benchmark:");
     stopwatch.Start();
-    var sequentialResults = recipes.Values.Where(r => r.GetCuisine().Contains("Italian")).ToList();
+    var sequentialResults = recipes.Values.Where(r => r.Cuisine.Contains("Italian")).ToList();
     stopwatch.Stop();
     Console.WriteLine($"Sequential search found {sequentialResults.Count} results in {stopwatch.ElapsedMilliseconds} ms");
 
     // Benchmark 2: LINQ operations
     stopwatch.Restart();
-    var sortedRecipes = recipes.Values.OrderBy(r => r.GetName()).ToList();
+    var sortedRecipes = recipes.Values.OrderBy(r => r.Name).ToList();
     stopwatch.Stop();
     Console.WriteLine($"LINQ sorting of {recipes.Count} recipes took {stopwatch.ElapsedMilliseconds} ms");
 
@@ -872,7 +750,7 @@ static void PerformanceBenchmark(Dictionary<string, Recipe> recipes, Dictionary<
     var largeList = new List<Recipe>();
     for (int i = 0; i < 10000; i++)
     {
-        largeList.Add(new Recipe($"Recipe {i}", "Test Cuisine"));
+        largeList.Add(new Recipe($"Recipe {i}", "Test Cuisine", 30));
     }
     long memoryAfter = GC.GetTotalMemory(false);
     Console.WriteLine($"Memory used for 10,000 recipes: {(memoryAfter - memoryBefore) / 1024} KB");
@@ -902,7 +780,7 @@ static void ParallelProcessingDemo(Dictionary<string, Recipe> recipes, Dictionar
     stopwatch.Start();
     var sequentialResults = recipes.Values
         .Where(r => r.GetAverageRating() > 3.0)
-        .Select(r => r.GetName().ToUpper())
+        .Select(r => r.Name.ToUpper())
         .ToList();
     stopwatch.Stop();
     long sequentialTime = stopwatch.ElapsedMilliseconds;
@@ -913,7 +791,7 @@ static void ParallelProcessingDemo(Dictionary<string, Recipe> recipes, Dictionar
     var parallelResults = recipes.Values
         .AsParallel()
         .Where(r => r.GetAverageRating() > 3.0)
-        .Select(r => r.GetName().ToUpper())
+        .Select(r => r.Name.ToUpper())
         .ToList();
     stopwatch.Stop();
     long parallelTime = stopwatch.ElapsedMilliseconds;
@@ -994,7 +872,7 @@ static void CreateTestData(Dictionary<string, Recipe> recipes, Dictionary<string
         if (!recipes.ContainsKey(recipeName))
         {
             string cuisine = cuisines[i % cuisines.Length];
-            Recipe recipe = new Recipe(recipeName, cuisine);
+            Recipe recipe = new Recipe(recipeName, cuisine, 30); // Default preparation time
             
             // Add random ingredients
             int ingredientCount = random.Next(2, 6);
@@ -1023,159 +901,11 @@ static void CreateTestData(Dictionary<string, Recipe> recipes, Dictionary<string
 }
 }
 
-// Ingredient Class Definition
-public class Ingredient
-{
-    // Member Variables
-    [JsonInclude]
-    private string name; // Stores the name of the ingredient
-    [JsonInclude]
-    private int quantity; // Stores the quantity of the ingredient
-
-    // Constructor
-    public Ingredient(string name, int quantity)
-    {
-        this.name = name;
-        this.quantity = quantity;
-    }
-
-    // Member Functions
-    public string GetName() => name;
-    public int GetQuantity() => quantity;
-    public void SetQuantity(int quantity) => this.quantity = quantity;
-    public void SetName(string name) => this.name = name;
-    public virtual void DisplayInfo()
-    {
-        Console.WriteLine($"Ingredient: {name}, Quantity: {quantity}");
-    }
-
-    // Unit Tests
-    public static void RunTests()
-    {
-        Ingredient testIngredient = new Ingredient("Sugar", 5);
-        Debug.Assert(testIngredient.GetName() == "Sugar", "Error: GetName failed");
-        Debug.Assert(testIngredient.GetQuantity() == 5, "Error: GetQuantity failed");
-        testIngredient.SetQuantity(10);
-        Debug.Assert(testIngredient.GetQuantity() == 10, "Error: SetQuantity failed");
-    }
-}
-
-// Perishable Ingredient Class Definition
-public class PerishableIngredient : Ingredient
-{
-    // Properties with getters and setters
-    public DateTime ExpirationDate { get; set; } // Stores the expiration date of the ingredient
-
-    // Constructor
-    // Initializes a new instance of the PerishableIngredient class with the specified name, quantity, and expiration date
-    public PerishableIngredient(string name, int quantity, DateTime expirationDate) : base(name, quantity)
-    {
-        ExpirationDate = expirationDate;
-    }
-
-    // Member Functions
-    // Displays detailed information about the perishable ingredient, including its name, quantity, and expiration date
-    public override void DisplayInfo()
-    {
-        base.DisplayInfo();
-        Console.WriteLine($"Expiration Date: {ExpirationDate.ToShortDateString()}");
-    }
-
-    // Unit Tests
-    public static void RunTests()
-    {
-        PerishableIngredient testPerishableIngredient = new PerishableIngredient("Test Perishable Ingredient", 100, DateTime.Now.AddDays(7));
-
-        // Test Name property
-        Debug.Assert(testPerishableIngredient.GetName() == "Test Perishable Ingredient", "Error: Name getter failed.");
-        testPerishableIngredient.SetName("Updated Perishable Ingredient");
-        Debug.Assert(testPerishableIngredient.GetName() == "Updated Perishable Ingredient", "Error: Name setter failed.");
-
-        // Test Quantity property
-        Debug.Assert(testPerishableIngredient.GetQuantity() == 100, "Error: Quantity getter failed.");
-        testPerishableIngredient.SetQuantity(200);
-        Debug.Assert(testPerishableIngredient.GetQuantity() == 200, "Error: Quantity setter failed.");
-
-        // Test ExpirationDate property
-        Debug.Assert(testPerishableIngredient.ExpirationDate.Date == DateTime.Now.AddDays(7).Date, "Error: ExpirationDate getter failed.");
-        testPerishableIngredient.ExpirationDate = DateTime.Now.AddDays(14);
-        Debug.Assert(testPerishableIngredient.ExpirationDate.Date == DateTime.Now.AddDays(14).Date, "Error: ExpirationDate setter failed.");
-
-        Console.WriteLine("All PerishableIngredient class tests passed.");
-    }
-}
-
-// Recipe Class Definition
-public class Recipe
-{
-    // Member Variables
-    [JsonInclude]
-    private string name; // Stores the name of the recipe
-    [JsonInclude]
-    private string cuisine; // Stores the type of cuisine
-    [JsonInclude]
-    private List<Ingredient> ingredients; // Stores a list of ingredients
-    [JsonInclude]
-    private List<int> ratings; // Stores user ratings for the recipe
-
-    // Constructor
-    public Recipe(string name, string cuisine)
-    {
-        this.name = name;
-        this.cuisine = cuisine;
-        this.ingredients = new List<Ingredient>();
-        this.ratings = new List<int>();
-    }
-
-    // Member Functions
-    public string GetName() => name;
-    public string GetCuisine() => cuisine;
-    public void SetCuisine(string cuisine) => this.cuisine = cuisine;
-    public List<Ingredient> GetIngredients() => ingredients;
-    public void AddIngredient(Ingredient ingredient) => ingredients.Add(ingredient);
-    public void AddRating(int rating)
-    {
-        if (rating >= 1 && rating <= 5)
-        {
-            ratings.Add(rating);
-        }
-        else
-        {
-            throw new ArgumentException("Rating must be between 1 and 5.");
-        }
-    }
-    public double GetAverageRating() => ratings.Count == 0 ? 0.0 : ratings.Average();
-    public void DisplayInfo()
-    {
-        Console.WriteLine($"Recipe: {name}, Cuisine: {cuisine}, Average Rating: {GetAverageRating():F1}");
-        Console.WriteLine("Ingredients:");
-        foreach (var ingredient in ingredients)
-        {
-            ingredient.DisplayInfo();
-        }
-    }
-
-    // Unit Tests
-    public static void RunTests()
-    {
-        Recipe testRecipe = new Recipe("Pasta", "Italian");
-        Debug.Assert(testRecipe.GetName() == "Pasta", "Error: GetName failed");
-        Debug.Assert(testRecipe.GetCuisine() == "Italian", "Error: GetCuisine failed");
-        testRecipe.SetCuisine("Mexican");
-        Debug.Assert(testRecipe.GetCuisine() == "Mexican", "Error: SetCuisine failed");
-        Ingredient testIngredient = new Ingredient("Tomato", 3);
-        testRecipe.AddIngredient(testIngredient);
-        Debug.Assert(testRecipe.GetIngredients().Count == 1, "Error: AddIngredient failed");
-        testRecipe.AddRating(5);
-        testRecipe.AddRating(3);
-        Debug.Assert(Math.Abs(testRecipe.GetAverageRating() - 4.0) < 0.001, "Error: GetAverageRating failed");
-    }
-}
 
 
  /*
  
-    Explanation of Advanced Programming Topics Implemented:
+    Explanation of Systems Programming Topics Implemented:
     
     1. Console IO and Variables:
         - Extensive use of Console.WriteLine() and Console.ReadLine() for interactive user interface
