@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using System.Runtime.Serialization;
+
 // Class representing a Recipe
+[Serializable]
 public class Recipe
 {
     // Properties with getters and setters
@@ -132,4 +135,4 @@ The RunTests() method provides a simple way to verify the correctness of the Rec
 Summary:
 The Recipe.cs file defines a Recipe class that encapsulates properties for name, cuisine, preparation time, ingredients, and ratings, along with methods to display this information, add ingredients, calculate the average rating, and perform basic unit testing. 
 This structure is useful in applications where managing and displaying recipe information is required.
-*/  
+*/

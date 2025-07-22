@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 
 // Class representing an Ingredient
+[Serializable]
 public class Ingredient
 {
     // Properties with getters and setters
