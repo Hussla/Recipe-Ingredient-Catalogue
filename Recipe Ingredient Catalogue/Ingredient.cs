@@ -33,14 +33,14 @@ public class Ingredient
         Ingredient testIngredient = new Ingredient("Test Ingredient", 200);
 
         // Test Name property
-Debug.Assert(testIngredient.Name == "Test Ingredient", "Error: Name getter failed.");
-testIngredient.Name = "Updated Ingredient";
-Debug.Assert(testIngredient.Name == "Updated Ingredient", "Error: Name setter failed.");
+        Debug.Assert(testIngredient.Name == "Test Ingredient", "Error: Name getter failed.");
+        testIngredient.Name = "Updated Ingredient";
+        Debug.Assert(testIngredient.Name == "Updated Ingredient", "Error: Name setter failed.");
 
-// Test Quantity property
-Debug.Assert(testIngredient.Quantity == 200, "Error: Quantity getter failed.");
-testIngredient.Quantity = 300;
-Debug.Assert(testIngredient.Quantity == 300, "Error: Quantity setter failed.");
+        // Test Quantity property
+        Debug.Assert(testIngredient.Quantity == 200, "Error: Quantity getter failed.");
+        testIngredient.Quantity = 300;
+        Debug.Assert(testIngredient.Quantity == 300, "Error: Quantity setter failed.");
 
         Console.WriteLine("All Ingredient class tests passed.");
     }
