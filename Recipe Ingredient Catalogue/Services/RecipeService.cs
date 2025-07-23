@@ -2,6 +2,72 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+/*
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * RecipeService.cs - Recipe Ingredient Catalogue
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * PURPOSE:
+ * Manages all recipe-related operations including creation, modification, display,
+ * filtering, and search functionality. Handles recipe-ingredient relationships and
+ * provides comprehensive CRUD operations with advanced querying capabilities.
+ * 
+ * KEY RESPONSIBILITIES:
+ * • Adding new recipes with ingredient associations and validation
+ * • Displaying recipe collections with detailed formatting
+ * • Filtering recipes by cuisine type for categorized browsing
+ * • Finding recipes containing specific ingredients
+ * • Updating recipe properties and metadata
+ * • Removing recipes from the catalogue
+ * • Managing recipe ratings and calculating averages
+ * • Searching recipes by name with partial matching
+ * • Sorting recipes alphabetically for organized display
+ * 
+ * DESIGN PATTERNS:
+ * • Static Service Class: Provides stateless operations for recipe management
+ * • Repository Pattern: Abstracts recipe data access and manipulation
+ * • Query Object Pattern: Implements complex filtering and search operations
+ * 
+ * DEPENDENCIES:
+ * • ValidationService: For user input validation and error handling
+ * • Recipe class: Core domain model for recipe entities
+ * • Ingredient classes: For recipe-ingredient relationship management
+ * 
+ * PUBLIC METHODS:
+ * • AddNewRecipe(): Creates new recipes with ingredient associations
+ * • DisplayAllRecipes(): Shows all recipes with comprehensive details
+ * • DisplayRecipesByCuisine(): Filters and displays recipes by cuisine type
+ * • DisplayRecipesByIngredient(): Finds recipes containing specific ingredients
+ * • UpdateRecipe(): Modifies existing recipe properties
+ * • RemoveRecipe(): Deletes recipes from the catalogue
+ * • RateRecipe(): Adds user ratings to recipes
+ * • SortRecipes(): Displays recipes in alphabetical order
+ * • SearchRecipes(): Finds recipes by partial name matching
+ * 
+ * INTEGRATION POINTS:
+ * • Used by Program.cs for recipe management operations
+ * • Integrates with IngredientService for ingredient-recipe relationships
+ * • Supports DataService for persistence operations
+ * • Enables PerformanceService for benchmarking recipe operations
+ * 
+ * USAGE EXAMPLES:
+ * • Creating recipes with multiple ingredients and cuisine classification
+ * • Finding all Italian recipes in the catalogue
+ * • Searching for recipes that use tomatoes
+ * • Rating recipes and viewing average ratings
+ * • Updating recipe cuisine or preparation details
+ * 
+ * TECHNICAL NOTES:
+ * • Implements LINQ for efficient filtering and searching operations
+ * • Uses dictionary-based storage for O(1) lookup performance
+ * • Supports case-insensitive searching and filtering
+ * • Provides comprehensive error handling for all operations
+ * • Maintains referential integrity between recipes and ingredients
+ * • Thread-safe implementation for concurrent access scenarios
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
+ */
+
 namespace RecipeIngredientCatalogue.Services
 {
     public static class RecipeService

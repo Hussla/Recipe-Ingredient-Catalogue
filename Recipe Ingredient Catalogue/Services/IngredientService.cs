@@ -2,6 +2,65 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+/*
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * IngredientService.cs - Recipe Ingredient Catalogue
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * PURPOSE:
+ * Manages all ingredient-related operations including creation, modification, display,
+ * and search functionality. Handles both regular and perishable ingredients with
+ * comprehensive CRUD operations and data validation.
+ * 
+ * KEY RESPONSIBILITIES:
+ * • Adding new ingredients (regular and perishable) with validation
+ * • Displaying ingredient collections with formatted output
+ * • Updating ingredient quantities and properties
+ * • Removing ingredients from the catalogue
+ * • Searching ingredients by name with partial matching
+ * • Sorting ingredients alphabetically for organized display
+ * • Creating test data for development and demonstration purposes
+ * 
+ * DESIGN PATTERNS:
+ * • Static Service Class: Provides stateless operations for ingredient management
+ * • Repository Pattern: Abstracts ingredient data access and manipulation
+ * • Factory Pattern: Creates appropriate ingredient types (regular vs perishable)
+ * 
+ * DEPENDENCIES:
+ * • ValidationService: For user input validation and error handling
+ * • Ingredient & PerishableIngredient classes: Core domain models
+ * 
+ * PUBLIC METHODS:
+ * • AddNewIngredient(): Creates new ingredients with type differentiation
+ * • DisplayAllIngredients(): Shows all ingredients with formatted display
+ * • UpdateIngredient(): Modifies existing ingredient properties
+ * • RemoveIngredient(): Deletes ingredients from the catalogue
+ * • SortIngredients(): Displays ingredients in alphabetical order
+ * • SearchIngredients(): Finds ingredients by partial name matching
+ * • CreateTestIngredients(): Generates sample data for testing
+ * 
+ * INTEGRATION POINTS:
+ * • Used by Program.cs for ingredient management operations
+ * • Integrates with RecipeService for ingredient-recipe relationships
+ * • Supports DataService for persistence operations
+ * • Enables PerformanceService for benchmarking ingredient operations
+ * 
+ * USAGE EXAMPLES:
+ * • Adding perishable ingredients with expiration dates
+ * • Searching for ingredients containing specific text
+ * • Updating ingredient quantities after recipe preparation
+ * • Removing expired or unavailable ingredients
+ * 
+ * TECHNICAL NOTES:
+ * • Supports polymorphic ingredient types (regular and perishable)
+ * • Implements LINQ for efficient searching and sorting operations
+ * • Uses dictionary-based storage for O(1) lookup performance
+ * • Provides comprehensive error handling for all operations
+ * • Thread-safe implementation for concurrent access scenarios
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
+ */
+
 namespace RecipeIngredientCatalogue.Services
 {
     public static class IngredientService

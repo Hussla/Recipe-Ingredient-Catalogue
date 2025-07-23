@@ -1,5 +1,58 @@
 using System;
 
+/*
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * ValidationService.cs - Recipe Ingredient Catalogue
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * PURPOSE:
+ * Centralized input validation and user interaction management for the application.
+ * Provides consistent validation patterns and type-safe input collection.
+ * 
+ * KEY RESPONSIBILITIES:
+ * • Collecting and validating user input of various types (string, int, bool, DateTime)
+ * • Implementing validation loops with error feedback for robust input handling
+ * • Generic collection validation (item existence checks)
+ * • Standardizing user prompts and error messages
+ * 
+ * DESIGN PATTERNS:
+ * • Static Utility Class: Provides reusable validation methods across the application
+ * • Generic Methods: Type-safe collection validation with generic constraints
+ * • Validation Loops: Robust input validation with retry capability
+ * 
+ * DEPENDENCIES:
+ * • None (standalone validation utility)
+ * 
+ * PUBLIC METHODS:
+ * • GetInput(): Collects string input with prompt
+ * • GetIntInput(): Collects and validates integer input
+ * • GetBoolInput(): Collects and validates boolean input
+ * • GetDateInput(): Collects and validates date input
+ * • GetRatingInput(): Collects and validates 1-5 rating input
+ * • ValidateItemExists(): Generic dictionary key existence check
+ * • ValidateItemNotExists(): Generic dictionary key non-existence check
+ * 
+ * INTEGRATION POINTS:
+ * • Used by all service classes for user input collection
+ * • Provides validation for RecipeService and IngredientService operations
+ * • Supports DataService for file operations
+ * • Enables PerformanceService for user interaction
+ * 
+ * USAGE EXAMPLES:
+ * • Collecting recipe name input with validation
+ * • Ensuring ingredient quantity is a valid integer
+ * • Checking if a recipe already exists before adding
+ * • Validating user confirmation for critical operations
+ * 
+ * TECHNICAL NOTES:
+ * • Thread-safe implementation for concurrent access
+ * • Implements validation loops with clear error feedback
+ * • Uses generic type parameters for flexible collection validation
+ * • Provides consistent user experience through standardized prompts
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
+ */
+
 namespace RecipeIngredientCatalogue.Services
 {
     public static class ValidationService

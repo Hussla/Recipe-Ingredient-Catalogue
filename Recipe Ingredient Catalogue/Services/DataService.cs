@@ -5,6 +5,66 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Linq;
 
+/*
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * DataService.cs - Recipe Ingredient Catalogue
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * PURPOSE:
+ * Manages data persistence and serialization operations for the application.
+ * Provides multiple storage formats (JSON, Binary) and comprehensive data
+ * import/export functionality with robust error handling and validation.
+ * 
+ * KEY RESPONSIBILITIES:
+ * • Saving application data to JSON format for human-readable storage
+ * • Loading application data from JSON files with validation
+ * • Saving application data to binary format for compact storage
+ * • Loading application data from binary files with type safety
+ * • Exporting formatted reports for data analysis and documentation
+ * • Managing file I/O operations with comprehensive error handling
+ * • Maintaining data integrity during serialization/deserialization
+ * 
+ * DESIGN PATTERNS:
+ * • Static Service Class: Provides stateless data persistence operations
+ * • Serialization Strategy: Supports multiple data formats (JSON/Binary)
+ * • Data Transfer Object: Uses CatalogueData for structured serialization
+ * 
+ * DEPENDENCIES:
+ * • System.Text.Json: For JSON serialization and deserialization
+ * • System.IO: For file operations and binary data handling
+ * • Recipe & Ingredient classes: Core domain models for data persistence
+ * 
+ * PUBLIC METHODS:
+ * • SaveDataToJsonFile(): Serializes data to human-readable JSON format
+ * • LoadDataFromJsonFile(): Deserializes data from JSON files
+ * • SaveDataToBinaryFile(): Serializes data to compact binary format
+ * • LoadDataFromBinaryFile(): Deserializes data from binary files
+ * • ExportReport(): Generates formatted text reports for analysis
+ * 
+ * INTEGRATION POINTS:
+ * • Used by Program.cs for data persistence operations
+ * • Supports RecipeService and IngredientService for data storage
+ * • Enables backup and restore functionality
+ * • Provides data export capabilities for external analysis
+ * 
+ * USAGE EXAMPLES:
+ * • Saving complete catalogue data to JSON for backup
+ * • Loading previously saved data on application startup
+ * • Exporting binary data for efficient storage and transfer
+ * • Generating reports for data analysis and documentation
+ * 
+ * TECHNICAL NOTES:
+ * • Implements JSON serialization with enum support and formatting
+ * • Uses binary serialization for space-efficient storage
+ * • Provides comprehensive error handling for file operations
+ * • Maintains backward compatibility for data format changes
+ * • Supports polymorphic serialization for ingredient types
+ * • Thread-safe implementation for concurrent access scenarios
+ * • Validates file existence and format before operations
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
+ */
+
 namespace RecipeIngredientCatalogue.Services
 {
     public class CatalogueData

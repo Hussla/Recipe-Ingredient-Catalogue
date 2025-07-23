@@ -5,6 +5,72 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+/*
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * PerformanceService.cs - Recipe Ingredient Catalogue
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * PURPOSE:
+ * Provides performance benchmarking and parallel processing capabilities for the
+ * application. Demonstrates optimization techniques and measures system performance
+ * across various operations with comprehensive timing and memory analysis.
+ * 
+ * KEY RESPONSIBILITIES:
+ * • Running performance benchmarks for critical operations
+ * • Demonstrating parallel processing techniques and benefits
+ * • Measuring memory usage and optimization opportunities
+ * • Comparing sequential vs parallel processing performance
+ * • Implementing multi-threaded operations with Task-based patterns
+ * • Creating test data for performance analysis
+ * • Profiling LINQ operations and dictionary lookups
+ * 
+ * DESIGN PATTERNS:
+ * • Static Service Class: Provides stateless performance analysis operations
+ * • Strategy Pattern: Implements different parallel processing approaches
+ * • Observer Pattern: Monitors and reports performance metrics
+ * 
+ * DEPENDENCIES:
+ * • System.Diagnostics: For performance timing with Stopwatch
+ * • System.Threading.Tasks: For parallel processing and Task management
+ * • IngredientService: For creating test data
+ * • Recipe & Ingredient classes: Core domain models for benchmarking
+ * 
+ * PUBLIC METHODS:
+ * • RunPerformanceBenchmark(): Executes comprehensive performance tests
+ * • RunParallelProcessingDemo(): Demonstrates parallel processing techniques
+ * • CreateTestData(): Generates large datasets for performance testing
+ * 
+ * PRIVATE METHODS:
+ * • RunSequentialVsParallelDemo(): Compares processing approaches
+ * • RunParallelForEachDemo(): Demonstrates Parallel.ForEach usage
+ * • RunTaskBasedDemo(): Shows Task-based parallel processing
+ * • RunMemoryBenchmark(): Analyzes memory usage patterns
+ * 
+ * INTEGRATION POINTS:
+ * • Used by Program.cs for performance analysis operations
+ * • Integrates with all service classes for comprehensive testing
+ * • Supports development optimization and bottleneck identification
+ * • Enables scalability testing and performance validation
+ * 
+ * USAGE EXAMPLES:
+ * • Benchmarking search operations across large datasets
+ * • Comparing sequential vs parallel LINQ operations
+ * • Measuring memory consumption for large collections
+ * • Testing multi-core utilization effectiveness
+ * • Analyzing dictionary lookup vs linear search performance
+ * 
+ * TECHNICAL NOTES:
+ * • Uses Stopwatch for high-precision timing measurements
+ * • Implements PLINQ (Parallel LINQ) for data processing
+ * • Utilizes Environment.ProcessorCount for optimal task distribution
+ * • Provides memory profiling with GC.GetTotalMemory()
+ * • Supports chunked processing for large datasets
+ * • Thread-safe operations with Interlocked for counters
+ * • Demonstrates Task.WaitAll for synchronization
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
+ */
+
 namespace RecipeIngredientCatalogue.Services
 {
     public static class PerformanceService

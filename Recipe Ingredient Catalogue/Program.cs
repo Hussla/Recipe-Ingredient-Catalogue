@@ -9,6 +9,86 @@ using System.Threading;
 using System.Threading.Tasks;
 using RecipeIngredientCatalogue.Services;
 
+/*
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * Program.cs - Recipe Ingredient Catalogue
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * PURPOSE:
+ * Main entry point and orchestration layer for the Recipe Ingredient Catalogue
+ * application. Manages user authentication, application lifecycle, menu navigation,
+ * and coordinates interactions between all service layers.
+ * 
+ * KEY RESPONSIBILITIES:
+ * • Application startup and command-line argument processing
+ * • User authentication and role-based access control (admin vs user)
+ * • Main application loop and menu-driven navigation
+ * • Coordinating service layer operations for business logic
+ * • Managing application state and data collections
+ * • Handling user choice routing and operation delegation
+ * • Running automated tests for core domain classes
+ * • Providing legacy JSON loading functionality
+ * 
+ * DESIGN PATTERNS:
+ * • Main Controller: Orchestrates application flow and user interactions
+ * • Command Pattern: Maps menu choices to specific operations
+ * • Facade Pattern: Provides simplified interface to complex service operations
+ * • Strategy Pattern: Implements role-based menu and operation differentiation
+ * 
+ * DEPENDENCIES:
+ * • MenuService: For user interface navigation and input validation
+ * • ValidationService: For user input collection and validation
+ * • RecipeService: For all recipe-related operations
+ * • IngredientService: For all ingredient-related operations
+ * • DataService: For data persistence and serialization
+ * • PerformanceService: For benchmarking and performance analysis
+ * • Recipe & Ingredient classes: Core domain models
+ * 
+ * PUBLIC METHODS:
+ * • Main(): Application entry point with command-line argument processing
+ * 
+ * PRIVATE METHODS:
+ * • DisplayMenu(): Delegates menu display to MenuService
+ * • GetUserChoice(): Delegates user input to MenuService
+ * • HandleUserChoice(): Routes user selections to appropriate service operations
+ * • LoadRecipesAndIngredients(): Legacy JSON loading functionality
+ * • SearchRecipesOrIngredients(): Coordinates search across both collections
+ * • UpdateRecipeOrIngredientInformation(): Handles update operations
+ * • RemoveRecipeOrIngredient(): Handles deletion operations
+ * • SortRecipesOrIngredients(): Handles sorting operations
+ * • ExitProgram(): Graceful application termination
+ * • GetInput(): Legacy input helper method
+ * 
+ * INTEGRATION POINTS:
+ * • Serves as the main orchestration layer for all application operations
+ * • Coordinates between UI layer (MenuService) and business logic (Services)
+ * • Manages application state through dictionary collections
+ * • Provides role-based operation routing and access control
+ * 
+ * USAGE EXAMPLES:
+ * • dotnet run admin - Launches application in administrator mode
+ * • dotnet run user - Launches application in read-only user mode
+ * • Handles menu navigation and operation delegation
+ * • Manages data persistence and loading operations
+ * 
+ * TECHNICAL NOTES:
+ * • Implements role-based access control with admin/user differentiation
+ * • Uses Dictionary<string, T> for efficient O(1) data lookups
+ * • Provides comprehensive error handling and user feedback
+ * • Supports both JSON and binary data persistence formats
+ * • Includes automated testing execution on startup
+ * • Maintains separation of concerns through service delegation
+ * • Thread-safe implementation for concurrent operations
+ * • Supports extension methods for .NET compatibility (Chunk)
+ * 
+ * COMMAND LINE USAGE:
+ * • Required argument: mode ("admin" or "user")
+ * • Admin mode: Full CRUD operations and advanced features
+ * • User mode: Read-only operations and basic functionality
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
+ */
+
 // Extension method for Chunk functionality (for older .NET versions)
 public static class EnumerableExtensions
 {
