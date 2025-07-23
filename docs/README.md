@@ -11,7 +11,6 @@
 - **State Management**: Variables maintain application state across the entire workflow
 - **Dynamic Data Handling**: Real-time updates and modifications to recipe and ingredient data
 
-
 ### 2. Command Line Interfaces
 - **Menu-Driven Navigation**: Comprehensive CLI menu system with 20 distinct operations for admin mode, 7 for user mode
 - **Command Pattern**: Each menu option maps to a dedicated method (e.g., `AddNewRecipe()`, `SearchRecipesOrIngredients()`, `DisplayAllIngredients()`)
@@ -51,6 +50,74 @@
 
 The application has been refactored to follow clean architecture principles with a service-oriented design that eliminates code duplication and improves maintainability.
 
+
+## Project File Structure
+
+```
+Recipe Ingredient Catalogue/
+├── Recipe Ingredient Catalogue.sln
+├── docs/
+│   ├── README.md
+│   └── REFACTORING_SUMMARY.md
+├── Recipe Ingredient Catalogue/
+│   ├── Program.cs
+│   ├── Ingredient.cs
+│   ├── Recipe.cs
+│   ├── Recipe Ingredient Catalogue.csproj
+│   ├── bin/
+│   │   └── Debug/
+│   │       └── net8.0/
+│   │           ├── Recipe Ingredient Catalogue
+│   │           ├── Recipe Ingredient Catalogue.deps.json
+│   │           ├── Recipe Ingredient Catalogue.dll
+│   │           ├── Recipe Ingredient Catalogue.pdb
+│   │           └── Recipe Ingredient Catalogue.runtimeconfig.json
+│   ├── obj/
+│   │   └── Debug/
+│   │       └── net8.0/
+│   │           ├── .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+│   │           ├── Recipe Ingredient Catalogue.AssemblyInfo.cs
+│   │           ├── Recipe Ingredient Catalogue.AssemblyInfoInputs.cache
+│   │           ├── Recipe Ingredient Catalogue.assets.cache
+│   │           ├── Recipe Ingredient Catalogue.csproj.CoreCompileInputs.cache
+│   │           ├── Recipe Ingredient Catalogue.csproj.FileListAbsolute.txt
+│   │           ├── Recipe Ingredient Catalogue.GeneratedMSBuildEditorConfig.editorconfig
+│   │           ├── Recipe Ingredient Catalogue.genruntimeconfig.cache
+│   │           ├── Recipe Ingredient Catalogue.GlobalUsings.g.cs
+│   │           ├── Recipe Ingredient Catalogue.pdb
+│   │           ├── Recipe Ingredient Catalogue.sourcelink.json
+│   │           ├── ref/
+│   │           │   └── Recipe Ingredient Catalogue.dll
+│   │           └── refint/
+│   │               └── Recipe Ingredient Catalogue.dll
+│   └── Services/
+│       ├── DataService.cs
+│       ├── IngredientService.cs
+│       ├── MenuService.cs
+│       ├── PerformanceService.cs
+│       ├── RecipeService.cs
+│       └── ValidationService.cs
+```
+
+### Key Components:
+- **Root Directory**: Contains the solution file and documentation folder
+- **Main Project Folder**: Houses all source code and project configuration
+- **Core Files**:
+  - `Program.cs`: Application entry point and main logic
+  - `Ingredient.cs`: Base class for all ingredients
+  - `PerishableIngredient.cs`: Extended ingredient class with expiration date
+  - `Recipe.cs`: Recipe class with ingredients and ratings
+- **Service Layer**: Modular components in the `Services` folder handle specific responsibilities:
+  - `ValidationService.cs`: Input validation and user interaction
+  - `DataService.cs`: File I/O and serialization
+  - `RecipeService.cs`: Recipe management
+  - `IngredientService.cs`: Ingredient management
+  - `MenuService.cs`: User interface and navigation
+  - `PerformanceService.cs`: Benchmarking and parallel processing
+- **Build Artifacts**: `bin/` and `obj/` directories contain compiled output and intermediate build files
+
+
+
 ### Service Layer Architecture
 
 The application now uses a modular service architecture with dedicated classes for specific responsibilities:
@@ -59,7 +126,7 @@ The application now uses a modular service architecture with dedicated classes f
 **Purpose**: Handles all menu-related operations and user interaction flow
 - `DisplayMenu(bool isAdmin)`: Shows appropriate menu based on user role
 - `GetUserChoice(bool isAdmin)`: Validates and returns user menu selection
-- `ValidateAdminPermission(string choice, bool isAdmin)`: Checks admin permissions
+- `ValidateAdminPermission(string choice, isAdmin)`: Checks admin permissions
 
 #### 2. ValidationService
 **Purpose**: Centralizes all input validation and user interaction patterns
@@ -333,6 +400,9 @@ All tests use `Debug.Assert` statements that will halt execution if any test fai
 - **System.Text.Json**: High-performance JSON serialization
 - **Extension Methods**: Custom `Chunk()` method for older .NET compatibility
 - **Multi-Threading**: Thread-safe operations with `Interlocked` for counters
+
+
+
 
 ## Future Enhancements
 
