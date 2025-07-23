@@ -425,24 +425,24 @@ static void SortRecipesOrIngredients(Dictionary<string, Recipe> recipes, Diction
         - Encapsulation with private fields and controlled access through public methods
         - Static testing methods for comprehensive class validation
         - Clean class design with public properties and proper getter/setter methods
-        - Parameterized constructors for proper object initialization
+        - Parameterised constructors for proper object initialisation
         - Base class constructor calls demonstrating inheritance chain (PerishableIngredient : Ingredient)
         - Virtual method implementation for polymorphic behavior
 
-    5. Data Persistence and Serialization:
+    5. Data Persistence - Serialisation and Binary Files:
         - Dual serialization support: JSON (human-readable) and Binary (compact storage)
         - System.Text.Json implementation with custom JsonSerializerOptions
         - File I/O operations with comprehensive error handling and validation
         - CatalogueData class for structured data export/import operations
 
-    6. Performance Optimization and Parallel Processing:
+    6. Writing Fast Code - Performance Optimisation and Parallel Processing:
         - Built-in performance benchmarking using Stopwatch for timing analysis
         - Memory profiling with GC.GetTotalMemory() for optimization insights
         - PLINQ (Parallel LINQ) implementation with .AsParallel() for multi-threaded operations
         - Parallel.ForEach and Task-based processing for concurrent recipe handling
         - Multi-core utilization with Environment.ProcessorCount detection
         - Custom extension methods (Chunk) for .NET compatibility
-        - Multiple file format support (JSON, Binary, Text reports)
+        - Multiple file format support (JSON, Binary)
         - Structured report generation with sorted data presentation
         - File existence validation and error recovery mechanisms
         - Comprehensive logging and user feedback during operations

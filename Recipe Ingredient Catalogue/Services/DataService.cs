@@ -11,7 +11,7 @@ using System.Linq;
  * ═══════════════════════════════════════════════════════════════════════════════
  * 
  * PURPOSE:
- * Manages data persistence and serialization operations for the application.
+ * Manages data persistence and serialisation operations for the application.
  * Provides multiple storage formats (JSON, Binary) and comprehensive data
  * import/export functionality with robust error handling and validation.
  * 
@@ -26,11 +26,11 @@ using System.Linq;
  * 
  * DESIGN PATTERNS:
  * • Static Service Class: Provides stateless data persistence operations
- * • Serialization Strategy: Supports multiple data formats (JSON/Binary)
+ * • Serialisation Strategy: Supports multiple data formats (JSON/Binary)
  * • Data Transfer Object: Uses CatalogueData for structured serialization
  * 
  * DEPENDENCIES:
- * • System.Text.Json: For JSON serialization and deserialization
+ * • System.Text.Json: For JSON serialisation and deserialisation
  * • System.IO: For file operations and binary data handling
  * • Recipe & Ingredient classes: Core domain models for data persistence
  * 
@@ -54,11 +54,11 @@ using System.Linq;
  * • Generating reports for data analysis and documentation
  * 
  * TECHNICAL NOTES:
- * • Implements JSON serialization with enum support and formatting
- * • Uses binary serialization for space-efficient storage
+ * • Implements JSON serialisation with enum support and formatting
+ * • Uses binary serialisation for space-efficient storage
  * • Provides comprehensive error handling for file operations
  * • Maintains backward compatibility for data format changes
- * • Supports polymorphic serialization for ingredient types
+ * • Supports polymorphic serialisation for ingredient types
  * • Thread-safe implementation for concurrent access scenarios
  * • Validates file existence and format before operations
  * 
