@@ -8,6 +8,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using RecipeIngredientCatalogue.Services;
+using RecipeIngredientCatalogue.Patterns;
+using RecipeIngredientCatalogue.CLI;
+using RecipeIngredientCatalogue.Interfaces;
 
 /*
  * ═══════════════════════════════════════════════════════════════════════════════
@@ -113,8 +116,29 @@ class Program
         Console.WriteLine("Running tests for Ingredient class...");
         Ingredient.RunTests(); // Run tests for Ingredient class
 
+        Console.WriteLine("Running tests for PerishableIngredient class...");
+        PerishableIngredient.RunTests(); // Run tests for PerishableIngredient class
+
+        Console.WriteLine("Running tests for RefrigeratedIngredient class...");
+        RefrigeratedIngredient.RunTests(); // Run tests for RefrigeratedIngredient class
+
+        Console.WriteLine("Running tests for FrozenIngredient class...");
+        FrozenIngredient.RunTests(); // Run tests for FrozenIngredient class
+
         Console.WriteLine("Running tests for Recipe class...");
         Recipe.RunTests(); // Run tests for Recipe class
+
+        Console.WriteLine("Running tests for IngredientFactory...");
+        RecipeIngredientCatalogue.Patterns.IngredientFactory.RunTests();
+
+        Console.WriteLine("Running tests for Visitor Pattern...");
+        RecipeIngredientCatalogue.Patterns.VisitorUtility.RunTests();
+
+        Console.WriteLine("Running tests for Strategy Pattern...");
+        RecipeIngredientCatalogue.Patterns.ProcessorUtility.RunTests();
+
+        Console.WriteLine("Running tests for CommandLineParser...");
+        RecipeIngredientCatalogue.CLI.CommandLineParser.RunTests();
 
         Console.WriteLine("All tests have been executed.");
 

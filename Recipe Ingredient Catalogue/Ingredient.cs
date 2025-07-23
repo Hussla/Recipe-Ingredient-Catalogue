@@ -52,6 +52,12 @@ public class PerishableIngredient : Ingredient
     // Properties with getters and setters
     public DateTime ExpirationDate { get; set; } // Stores the expiration date of the ingredient
 
+    // Default constructor for JSON deserialization
+    public PerishableIngredient() : base("", 0)
+    {
+        ExpirationDate = DateTime.Now;
+    }
+
     // Constructor
     // Initializes a new instance of the PerishableIngredient class with the specified name, quantity, and expiration date
     public PerishableIngredient(string name, int quantity, DateTime expirationDate) : base(name, quantity)
@@ -65,6 +71,12 @@ public class PerishableIngredient : Ingredient
     {
         base.DisplayInfo();
         Console.WriteLine($"Expiration Date: {ExpirationDate.ToShortDateString()}");
+    }
+
+    // Checks if the ingredient is safe for consumption based on expiration date
+    public virtual bool IsSafe()
+    {
+        return DateTime.Now <= ExpirationDate;
     }
 
     // Unit Tests

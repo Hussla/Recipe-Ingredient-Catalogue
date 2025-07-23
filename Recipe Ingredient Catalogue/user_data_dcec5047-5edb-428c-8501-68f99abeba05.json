@@ -1,0 +1,10 @@
+{
+  "Recipes": {
+    "Curry": {
+      "Name": "Curry",
+      "Cuisine": "Kashmiri",
+      "PreparationTime": 30
+    }
+  },
+  "Ingredients": {}
+}
