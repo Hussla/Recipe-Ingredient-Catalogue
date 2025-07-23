@@ -58,9 +58,12 @@ Recipe Ingredient Catalogue/
 ├── Recipe Ingredient Catalogue.sln
 ├── docs/
 │   ├── README.md
-│   └── REFACTORING_SUMMARY.md
+│   ├── REFACTORING_SUMMARY.md
+│   └── MULTI_USER_IMPLEMENTATION.md
 ├── Recipe Ingredient Catalogue/
 │   ├── Program.cs
+│   ├── AuthService.cs
+│   ├── User.cs
 │   ├── Ingredient.cs
 │   ├── Recipe.cs
 │   ├── Recipe Ingredient Catalogue.csproj
@@ -101,11 +104,13 @@ Recipe Ingredient Catalogue/
 
 ### Key Components:
 - **Root Directory**: Contains the solution file and documentation folder
+- **Documentation**: Enhanced documentation including multi-user implementation guide
 - **Main Project Folder**: Houses all source code and project configuration
 - **Core Files**:
-  - `Program.cs`: Application entry point and main logic
+  - `Program.cs`: Application entry point with authentication integration
+  - `AuthService.cs`: User authentication and session management service
+  - `User.cs`: User model with secure password hashing and role-based access
   - `Ingredient.cs`: Base class for all ingredients
-  - `PerishableIngredient.cs`: Extended ingredient class with expiration date
   - `Recipe.cs`: Recipe class with ingredients and ratings
 - **Service Layer**: Modular components in the `Services` folder handle specific responsibilities:
   - `ValidationService.cs`: Input validation and user interaction
@@ -300,28 +305,66 @@ The system supports multiple data storage formats:
 - **Load Data**: Imports from both JSON and binary file formats with error handling
 - **Export Report**: Generates formatted text reports with sorted recipe and ingredient information
 
+## Multi-User Support 🆕
+
+The application now features comprehensive multi-user support with secure authentication and user-specific data management.
+
+### Key Multi-User Features
+- **🔐 Secure Authentication**: SHA256 password hashing with user registration/login
+- **👥 Role-Based Access**: Admin and User roles with appropriate permissions
+- **📁 Personal Data Isolation**: Each user maintains their own recipe and ingredient collections
+- **💾 Automatic Data Persistence**: User data is automatically saved after modifications
+- **🔄 Session Management**: Secure login/logout with session tracking
+
+### Authentication Flow
+1. **Registration**: Create new accounts with username, password, and role selection
+2. **Login**: Secure authentication with encrypted password verification
+3. **Personal Data Loading**: Automatic loading of user-specific recipes and ingredients
+4. **Session Management**: Maintain user session throughout application usage
+5. **Secure Logout**: Proper session termination with data saving
+
+For detailed information about the multi-user implementation, see [MULTI_USER_IMPLEMENTATION.md](MULTI_USER_IMPLEMENTATION.md).
+
 ## Usage Instructions
 
 ### Running the Application
 
-You have two options for running the application:
+The application now uses an interactive authentication system instead of command-line arguments:
 
-#### Option 1: Navigate to Project Directory (Recommended)
+#### Navigate to Project Directory and Run
 ```bash
 cd "Recipe Ingredient Catalogue"
-dotnet run admin
-# or
-dotnet run user
+dotnet run
 ```
 
-#### Option 2: Run from Root Directory with Full Project Path
+#### Or Run from Root Directory with Full Project Path
 ```bash
-dotnet run --project "Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj" admin
-# or
-dotnet run --project "Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj" user
+dotnet run --project "Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj"
 ```
 
-**Note**: Use `admin` for full access to all features, or `user` for read-only access.
+### Authentication Process
+Upon startup, you'll see the authentication menu:
+```
+=== Authentication ===
+1. Login
+2. Register
+3. Exit
+Choose an option (1-3):
+```
+
+#### Creating a New Account
+1. Select option `2` (Register)
+2. Enter a unique username
+3. Create a password
+4. Choose your role (Admin for full access, User for standard access)
+5. Confirm registration and proceed to login
+
+#### Logging In
+1. Select option `1` (Login)
+2. Enter your username and password
+3. Access your personal recipe collection
+
+**Note**: Admin users have full CRUD operations and advanced features, while standard users have read-only access with personal data management.
 
 ### File Format for Data Import/Export
 
@@ -443,14 +486,15 @@ Planned improvements and feature expansions:
   - Add grocery delivery integration
 
 ### 4. User Experience Enhancements
-- **Authentication System**:
-  - Implement multi-user support
-  - Add role-based access control
-  - Enable user preference persistence
+- **✅ Authentication System** (IMPLEMENTED):
+  - ✅ Multi-user support with secure registration/login
+  - ✅ Role-based access control (Admin/User roles)
+  - ✅ User preference persistence with automatic data saving
+  - ✅ Session management and secure logout
 - **Advanced Search**:
   - Add multi-criteria search filters
   - Implement fuzzy matching algorithm
-  - Add search result prioritization
+  - Add search result prioritisation
 - **Media Integration**:
   - Support recipe image uploads
   - Add video tutorial integration

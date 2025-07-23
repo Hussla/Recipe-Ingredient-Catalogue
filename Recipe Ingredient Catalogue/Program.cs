@@ -110,27 +110,6 @@ class Program
 {
     static void Main(string[] args)
     {
-        // User authentication mode setup
-        if (args.Length < 1)
-        {
-            Console.WriteLine("Usage: RecipeCatalogue <mode>"); // for example: dotnet run --project "Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj" admin || dotnet run --project "Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj" user
-
-                                                                                
-
-
-            Console.WriteLine("<mode> should be either 'admin' or 'user'");
-            return;
-        }
-
-        string mode = args[0].ToLower();
-        bool isAdmin = mode == "admin";
-
-        if (!isAdmin && mode != "user")
-        {
-            Console.WriteLine("Invalid mode. Use 'admin' for full privileges or 'user' for read-only access.");
-            return;
-        }
-
         Console.WriteLine("Running tests for Ingredient class...");
         Ingredient.RunTests(); // Run tests for Ingredient class
 
@@ -142,12 +121,27 @@ class Program
         // Display a welcome message and instructions for using the program
         Console.WriteLine("\nWelcome to the Recipe and Ingredients Catalogue!");
         Console.WriteLine("=========================================");
-        Console.WriteLine("Use this program to manage your collection of recipes and ingredients.");
-        Console.WriteLine("Choose an option from the menu below:");
+        Console.WriteLine("Multi-User Recipe Management System");
+        Console.WriteLine("Please log in or register to continue.");
 
-        // Initialise dictionary to store recipes and ingredients
+        // Handle user authentication
+        if (!HandleAuthentication())
+        {
+            Console.WriteLine("Authentication failed. Exiting application.");
+            return;
+        }
+
+        // Get user role for admin privileges
+        bool isAdmin = AuthService.GetCurrentUser().Role.Equals("Admin", StringComparison.OrdinalIgnoreCase);
+        
+        Console.WriteLine($"\nWelcome, {AuthService.GetCurrentUser().Username}!");
+        Console.WriteLine($"Role: {AuthService.GetCurrentUser().Role}");
+        Console.WriteLine("Use this program to manage your collection of recipes and ingredients.");
+
+        // Load user-specific data
         Dictionary<string, Recipe> recipes = new Dictionary<string, Recipe>();
         Dictionary<string, Ingredient> ingredients = new Dictionary<string, Ingredient>();
+        LoadUserData(recipes, ingredients);
 
         // Start the main program loop
         while (true)
@@ -185,7 +179,12 @@ class Program
                 RecipeService.DisplayAllRecipes(recipes);
                 break;
             case "2":
-                if (isAdmin) IngredientService.AddNewIngredient(ingredients); else IngredientService.DisplayAllIngredients(ingredients);
+                if (isAdmin) 
+                {
+                    IngredientService.AddNewIngredient(ingredients);
+                    SaveUserData(recipes, ingredients);
+                }
+                else IngredientService.DisplayAllIngredients(ingredients);
                 break;
             case "3":
                 if (isAdmin) RecipeService.DisplayAllRecipes(recipes); else RecipeService.DisplayRecipesByCuisine(recipes);
@@ -197,19 +196,39 @@ class Program
                 if (isAdmin) LoadRecipesAndIngredients(recipes, ingredients); else RecipeService.DisplayRecipesByIngredient(recipes, ingredients);
                 break;
             case "6":
-                if (isAdmin) ExitProgram(); else LoadRecipesAndIngredients(recipes, ingredients);
+                if (isAdmin) 
+                {
+                    SaveUserData(recipes, ingredients);
+                    AuthService.Logout();
+                    Console.WriteLine("Logged out successfully. Exiting application.");
+                    Environment.Exit(0);
+                }
+                else LoadRecipesAndIngredients(recipes, ingredients);
                 break;
             case "7":
-                if (isAdmin) RecipeService.AddNewRecipe(recipes, ingredients); else ExitProgram();
+                if (isAdmin) 
+                {
+                    RecipeService.AddNewRecipe(recipes, ingredients);
+                    SaveUserData(recipes, ingredients);
+                }
+                else 
+                {
+                    SaveUserData(recipes, ingredients);
+                    AuthService.Logout();
+                    Console.WriteLine("Logged out successfully. Exiting application.");
+                    Environment.Exit(0);
+                }
                 break;
             case "8":
                 IngredientService.AddNewIngredient(ingredients);
+                SaveUserData(recipes, ingredients);
                 break;
             case "9":
                 IngredientService.DisplayAllIngredients(ingredients);
                 break;
             case "10":
                 UpdateRecipeOrIngredientInformation(recipes, ingredients);
+                SaveUserData(recipes, ingredients);
                 break;
             case "11":
                 DataService.SaveDataToJsonFile(recipes, ingredients, ValidationService.GetInput("Enter the filename to save data to (e.g., data.json): "));
@@ -222,9 +241,11 @@ class Program
                 break;
             case "14":
                 RemoveRecipeOrIngredient(recipes, ingredients);
+                SaveUserData(recipes, ingredients);
                 break;
             case "15":
                 RecipeService.RateRecipe(recipes);
+                SaveUserData(recipes, ingredients);
                 break;
             case "16":
                 SortRecipesOrIngredients(recipes, ingredients);
@@ -239,7 +260,10 @@ class Program
                 PerformanceService.RunParallelProcessingDemo(recipes, ingredients);
                 break;
             case "20":
-                ExitProgram();
+                SaveUserData(recipes, ingredients);
+                AuthService.Logout();
+                Console.WriteLine("Logged out successfully. Exiting application.");
+                Environment.Exit(0);
                 break;
             default:
                 Console.WriteLine("Invalid choice. Please try again.");
@@ -392,6 +416,117 @@ static void SortRecipesOrIngredients(Dictionary<string, Recipe> recipes, Diction
     {
         Console.Write(prompt);
         return Console.ReadLine();
+    }
+
+    // Handle user authentication (login/register)
+    static bool HandleAuthentication()
+    {
+        while (true)
+        {
+            Console.WriteLine("\n=== Authentication ===");
+            Console.WriteLine("1. Login");
+            Console.WriteLine("2. Register");
+            Console.WriteLine("3. Exit");
+            Console.Write("Choose an option (1-3): ");
+
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    if (HandleLogin())
+                        return true;
+                    break;
+                case "2":
+                    HandleRegistration();
+                    break;
+                case "3":
+                    return false;
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    break;
+            }
+        }
+    }
+
+    // Handle user login
+    static bool HandleLogin()
+    {
+        Console.Write("Username: ");
+        string username = Console.ReadLine();
+        Console.Write("Password: ");
+        string password = Console.ReadLine();
+
+        return AuthService.Login(username, password);
+    }
+
+    // Handle user registration
+    static void HandleRegistration()
+    {
+        Console.Write("Choose a username: ");
+        string username = Console.ReadLine();
+        
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            Console.WriteLine("Username cannot be empty.");
+            return;
+        }
+
+        Console.Write("Choose a password: ");
+        string password = Console.ReadLine();
+        
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            Console.WriteLine("Password cannot be empty.");
+            return;
+        }
+
+        Console.Write("Are you an admin? (y/n): ");
+        string roleInput = Console.ReadLine();
+        string role = roleInput?.ToLower() == "y" ? "Admin" : "User";
+
+        if (AuthService.Register(username, password, role))
+        {
+            Console.WriteLine("Registration successful! You can now log in.");
+        }
+    }
+
+    // Load user-specific data
+    static void LoadUserData(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
+    {
+        string userDataFile = $"user_data_{AuthService.GetCurrentUser().Id}.json";
+        if (File.Exists(userDataFile))
+        {
+            try
+            {
+                Console.WriteLine("Loading your personal data...");
+                DataService.LoadDataFromJsonFile(recipes, ingredients, userDataFile);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading user data: {ex.Message}");
+                Console.WriteLine("Starting with empty data.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No previous data found. Starting with empty catalogue.");
+        }
+    }
+
+    // Save user-specific data
+    static void SaveUserData(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)
+    {
+        string userDataFile = $"user_data_{AuthService.GetCurrentUser().Id}.json";
+        try
+        {
+            DataService.SaveDataToJsonFile(recipes, ingredients, userDataFile);
+            Console.WriteLine("Your data has been saved automatically.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving user data: {ex.Message}");
+        }
     }
 }
 
