@@ -6,7 +6,7 @@ using System;
  * ═══════════════════════════════════════════════════════════════════════════════
  * 
  * PURPOSE:
- * Centralized input validation and user interaction management for the application.
+ * Centralised input validation and user interaction management for the application.
  * Provides consistent validation patterns and type-safe input collection.
  * 
  * KEY RESPONSIBILITIES:

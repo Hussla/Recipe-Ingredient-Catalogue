@@ -12,7 +12,7 @@ using System.Threading.Tasks;
  * 
  * PURPOSE:
  * Provides performance benchmarking and parallel processing capabilities for the
- * application. Demonstrates optimization techniques and measures system performance
+ * application. Demonstrates optimisation techniques and measures system performance
  * across various operations with comprehensive timing and memory analysis.
  * 
  * KEY RESPONSIBILITIES:
@@ -66,7 +66,7 @@ using System.Threading.Tasks;
  * • Provides memory profiling with GC.GetTotalMemory()
  * • Supports chunked processing for large datasets
  * • Thread-safe operations with Interlocked for counters
- * • Demonstrates Task.WaitAll for synchronization
+ * • Demonstrates Task.WaitAll for synchronisation
  * 
  * ═══════════════════════════════════════════════════════════════════════════════
  */
