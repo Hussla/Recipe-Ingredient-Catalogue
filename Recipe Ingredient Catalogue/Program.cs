@@ -340,7 +340,7 @@ static void LoadRecipesAndIngredients(Dictionary<string, Recipe> recipes, Dictio
     {
         string searchTerm = ValidationService.GetInput("Enter search term (recipe name or ingredient name): ");
         RecipeService.SearchRecipes(recipes, searchTerm);
-        IngredientService.SearchIngredients(ingredients, searchTerm);
+        IngredientService.SearchIngredients(ingredients);
     }
 
     static void UpdateRecipeOrIngredientInformation(Dictionary<string, Recipe> recipes, Dictionary<string, Ingredient> ingredients)

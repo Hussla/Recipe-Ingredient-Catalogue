@@ -248,4 +248,4 @@ The multi-user support implementation transforms the Recipe Ingredient Catalogue
 - **Seamless Experience**: Automatic data persistence and intuitive workflows
 - **Scalable Architecture**: Foundation for future enhancements
 
-This implementation establishes the application as a professional-grade, multi-user recipe management system suitable for families, restaurants, or any organization requiring secure, personalized recipe management.
+This implementation establishes the application as a professional-grade, multi-user recipe management system suitable for families, restaurants, or any organization requiring secure, personalised recipe management.
