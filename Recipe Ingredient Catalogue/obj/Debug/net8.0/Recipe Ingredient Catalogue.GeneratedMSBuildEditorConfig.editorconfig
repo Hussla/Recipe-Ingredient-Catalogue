@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Recipe_Ingredient_Catalogue
-build_property.ProjectDir = /Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/
+build_property.ProjectDir = /Users/husslaos/Documents/University/Programming Projects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

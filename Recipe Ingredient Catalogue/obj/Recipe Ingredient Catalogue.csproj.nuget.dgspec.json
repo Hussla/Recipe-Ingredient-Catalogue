@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj": {}
+    "/Users/husslaos/Documents/University/Programming Projects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj": {}
   },
   "projects": {
-    "/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj": {
+    "/Users/husslaos/Documents/University/Programming Projects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj",
+        "projectUniqueName": "/Users/husslaos/Documents/University/Programming Projects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj",
         "projectName": "Recipe Ingredient Catalogue",
-        "projectPath": "/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj",
+        "projectPath": "/Users/husslaos/Documents/University/Programming Projects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue.csproj",
         "packagesPath": "/Users/husslaos/.nuget/packages/",
-        "outputPath": "/Users/husslaos/Documents/University/ProgrammingProjects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/",
+        "outputPath": "/Users/husslaos/Documents/University/Programming Projects/Recipe Ingredient Catalogue/Recipe Ingredient Catalogue/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/husslaos/.nuget/NuGet/NuGet.Config"
