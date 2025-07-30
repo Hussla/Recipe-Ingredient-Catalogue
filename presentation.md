@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-The Recipe Ingredient Catalogue is a sophisticated C# console application that demonstrates advanced programming concepts through a practical recipe management system. Built on .NET 8.0, the application showcases enterprise-level software architecture patterns, robust error handling, and performance-optimised data structures whilst maintaining clean code principles and comprehensive user authentication.
+The Recipe Ingredient Catalogue is a C# console application that demonstrates programming concepts through a recipe management system. Built on .NET 8.0, the application implements software architecture patterns, error handling, and data structures whilst maintaining code quality principles and user authentication.
 
 ## Project Architecture Overview
 
@@ -20,13 +20,13 @@ The application employs a layered architecture pattern with clear separation of 
 
 ### Theoretical Foundation
 
-Collections form the backbone of data structure management in object-orientated programming. The .NET Collections Framework provides type-safe, generic containers that offer optimal performance characteristics for different use cases. Algorithms operating on these collections must consider time complexity (Big O notation), space complexity, and the specific performance characteristics of the underlying data structures.
+Collections provide data structure management in object-orientated programming. The .NET Collections Framework provides type-safe, generic containers that offer performance characteristics for different use cases. Algorithms operating on these collections consider time complexity (Big O notation), space complexity, and the performance characteristics of the underlying data structures.
 
 ### Practical Implementation
 
 #### Generic Collections Usage
 
-The application extensively utilises generic collections to ensure type safety and performance optimisation:
+The application utilises generic collections to ensure type safety and performance:
 
 ```csharp
 // Recipe.cs - Ingredient collection management
@@ -37,9 +37,9 @@ private List<int> ratings; // Efficient storage for numerical data
 private static Dictionary<Guid, User> Users = new Dictionary<Guid, User>(); // O(1) average lookup
 ```
 
-#### Advanced Collection Operations
+#### Collection Operations
 
-The `AdvancedCollectionsService.cs` demonstrates sophisticated collection algorithms:
+The `AdvancedCollectionsService.cs` demonstrates collection algorithms:
 
 ```csharp
 // LINQ-based filtering with deferred execution
@@ -89,9 +89,9 @@ Command-line interfaces represent the fundamental interaction paradigm for syste
 
 ### Practical Implementation
 
-#### Advanced Argument Parsing
+#### Argument Parsing
 
-The `CommandLineParser.cs` implements a sophisticated argument parsing system:
+The `CommandLineParser.cs` implements an argument parsing system:
 
 ```csharp
 public enum ArgumentType
@@ -113,7 +113,7 @@ public class ParsedArgument
 
 #### Interactive Shell Implementation
 
-The `InteractiveShell.cs` provides an advanced command-line experience:
+The `InteractiveShell.cs` provides a command-line experience:
 
 ```csharp
 public class InteractiveShell
@@ -178,7 +178,7 @@ The application implements several CLI design patterns:
 
 ### Program Execution and User Experience
 
-The Recipe Ingredient Catalogue provides multiple entry points and interaction modes that demonstrate the sophisticated CLI implementation. Below are practical examples showing what users and lecturers can expect when running the application.
+The Recipe Ingredient Catalogue provides multiple entry points and interaction modes that demonstrate the CLI implementation. Below are examples showing what users can expect when running the application.
 
 #### Basic Program Launch
 
@@ -436,7 +436,7 @@ Role: User
 Last login: 29/07/2025 14:32:15
 ```
 
-#### Advanced Features Demonstration
+#### Features Demonstration
 
 **Admin Performance Monitoring:**
 ```
@@ -508,7 +508,7 @@ The CLI implementation demonstrates several key user experience principles:
 4. **Consistent Interface**: Uniform prompt styles and response formats
 5. **Performance Transparency**: Visible timing and progress indicators
 
-This comprehensive CLI design ensures that users—whether students, lecturers, or end-users—can easily navigate the application's functionality whilst experiencing the robust architecture and sophisticated error handling that underpins the system.
+This CLI design ensures that users can navigate the application's functionality whilst experiencing the architecture and error handling that underpins the system.
 
 ---
 
@@ -516,11 +516,11 @@ This comprehensive CLI design ensures that users—whether students, lecturers, 
 
 ### Theoretical Foundation
 
-Robustness encompasses an application's ability to handle unexpected inputs, system failures, and edge cases gracefully. This involves implementing comprehensive error handling strategies, input validation, defensive programming practices, and graceful degradation mechanisms. Robust systems employ multiple layers of validation and provide meaningful error feedback to users.
+Robustness encompasses an application's ability to handle unexpected inputs, system failures, and edge cases. This involves implementing error handling strategies, input validation, defensive programming practices, and degradation mechanisms. Robust systems employ multiple layers of validation and provide meaningful error feedback to users.
 
 ### Practical Implementation
 
-#### Comprehensive Input Validation
+#### Input Validation
 
 The `ValidationService.cs` implements multi-layered validation:
 
@@ -719,7 +719,7 @@ public class Recipe
 
 #### Complex Inheritance Hierarchy
 
-The ingredient system demonstrates sophisticated inheritance:
+The ingredient system demonstrates inheritance:
 
 ```csharp
 // Base class with virtual methods
@@ -1019,7 +1019,7 @@ Modern computing systems leverage multiple processing cores through parallel pro
 
 #### Performance Monitoring and Profiling
 
-The `PerformanceService.cs` implements comprehensive performance analysis:
+The `PerformanceService.cs` implements performance analysis:
 
 ```csharp
 public static class PerformanceService
@@ -1154,7 +1154,7 @@ public static async Task<List<Recipe>> LoadRecipesAsync(string filename)
 
 #### Memory Profiling and Optimisation
 
-Advanced collections service with performance monitoring:
+Collections service with performance monitoring:
 
 ```csharp
 public static class AdvancedCollectionsService
@@ -1283,9 +1283,9 @@ Implements defensive copying for collection exposure whilst maintaining performa
 
 ## Conclusion
 
-The Recipe Ingredient Catalogue successfully demonstrates mastery of advanced programming concepts through practical implementation. The application showcases sophisticated object-orientated design, robust error handling, performance optimisation, and modern software engineering practices. The codebase serves as an exemplar of clean architecture principles whilst maintaining educational clarity and extensibility for future enhancements.
+The Recipe Ingredient Catalogue demonstrates programming concepts through practical implementation. The application implements object-orientated design, error handling, performance optimisation, and software engineering practices. The codebase demonstrates architecture principles whilst maintaining clarity and extensibility for future enhancements.
 
-The project's comprehensive approach to the six key assignment topics demonstrates both theoretical understanding and practical application of computer science fundamentals. Through careful design decisions and thoughtful trade-off analysis, the application achieves the delicate balance between academic rigour and real-world applicability.
+The project's approach to the six key assignment topics demonstrates theoretical understanding and practical application of computer science fundamentals. Through design decisions and trade-off analysis, the application achieves balance between academic requirements and practical applicability.
 
 ---
 
