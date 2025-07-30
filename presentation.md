@@ -37,9 +37,9 @@ private List<int> ratings; // Efficient storage for numerical data
 private static Dictionary<Guid, User> Users = new Dictionary<Guid, User>(); // O(1) average lookup
 ```
 
-#### Collection Operations
+#### Collection Algorithms 
 
-The `AdvancedCollectionsService.cs` demonstrates collection algorithms:
+The `AdvancedCollectionsService.cs` demonstrates collection operations:
 
 ```csharp
 // LINQ-based filtering with deferred execution
@@ -516,7 +516,7 @@ This CLI design ensures that users can navigate the application's functionality 
 
 ### Theoretical Foundation
 
-Robustness encompasses an application's ability to handle unexpected inputs, system failures, and edge cases. This involves implementing error handling strategies, input validation, defensive programming practices, and degradation mechanisms. Robust systems employ multiple layers of validation and provide meaningful error feedback to users.
+Error handling encompasses an application's ability to manage unexpected inputs, system failures, and edge cases. This involves implementing error handling strategies, input validation, defensive programming practices, and degradation mechanisms. Reliable systems employ multiple layers of validation and provide meaningful error feedback to users.
 
 ### Practical Implementation
 
@@ -668,7 +668,7 @@ public static bool SaveDataToJsonFile(List<Recipe> recipes, List<Ingredient> ing
 
 1. **Retry Mechanisms**: Implement exponential backoff for transient failures
 2. **Health Checks**: Regular system health monitoring and reporting
-3. **Audit Logging**: Comprehensive operation tracking for debugging
+3. **Audit Logging**: Operation tracking for debugging
 
 ---
 
@@ -986,7 +986,7 @@ public abstract class IngredientBase
 ### Design Choices and Rationale
 
 **Choice**: System.Text.Json over Newtonsoft.Json
-- **Rationale**: Superior performance and reduced memory allocation
+- **Rationale**: Better performance and reduced memory allocation
 - **Alternative**: Newtonsoft.Json for broader feature set
 - **Justification**: .NET 8.0 native library with optimal performance characteristics
 
@@ -1157,9 +1157,9 @@ public static async Task<List<Recipe>> LoadRecipesAsync(string filename)
 Collections service with performance monitoring:
 
 ```csharp
-public static class AdvancedCollectionsService
+public static class CollectionsService
 {
-    public static void AnalyzeCollectionPerformance()
+    public static void AnalyseCollectionPerformance()
     {
         const int iterations = 100000;
         
@@ -1235,7 +1235,7 @@ public static class AdvancedCollectionsService
 **Decision**: Implement static service classes for business logic
 - **Rationale**: Simplified dependency management and clear separation of concerns
 - **Trade-off**: Reduced testability compared to dependency injection
-- **Mitigation**: Comprehensive integration tests and isolated unit tests
+- **Mitigation**: Integration tests and isolated unit tests
 
 #### Authentication Strategy
 **Decision**: Custom authentication system with password hashing
@@ -1247,7 +1247,7 @@ public static class AdvancedCollectionsService
 **Decision**: Dual serialisation strategy (JSON and binary)
 - **Rationale**: Flexibility for different deployment scenarios
 - **Trade-off**: Increased complexity in data access layer
-- **Mitigation**: Consistent interface abstractions and comprehensive error handling
+- **Mitigation**: Consistent interface abstractions and error handling
 
 ### Performance Optimisations
 
@@ -1274,7 +1274,7 @@ Implements defensive copying for collection exposure whilst maintaining performa
 2. **Mobile Application**: Cross-platform mobile client
 3. **Real-time Updates**: WebSocket-based live data synchronisation
 
-### Advanced Features
+### Additional Features
 1. **Machine Learning**: Recipe recommendation engine
 2. **Natural Language Processing**: Ingredient parsing from free text
 3. **Integration APIs**: Connect with external nutrition databases
@@ -1283,7 +1283,7 @@ Implements defensive copying for collection exposure whilst maintaining performa
 
 ## Conclusion
 
-The Recipe Ingredient Catalogue demonstrates programming concepts through practical implementation. The application implements object-orientated design, error handling, performance optimisation, and software engineering practices. The codebase demonstrates architecture principles whilst maintaining clarity and extensibility for future enhancements.
+The Recipe Ingredient Catalogue demonstrates programming concepts through practical implementation. The application implements object-orientated design, robustness, performance optimisation, and software engineering practices. The codebase demonstrates architecture principles whilst maintaining clarity and extensibility for future enhancements.
 
 The project's approach to the six key assignment topics demonstrates theoretical understanding and practical application of computer science fundamentals. Through design decisions and trade-off analysis, the application achieves balance between academic requirements and practical applicability.
 
