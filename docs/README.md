@@ -419,10 +419,10 @@ The system supports multiple data storage formats:
 The application now features comprehensive multi-user support with secure authentication and user-specific data management.
 
 ### Key Multi-User Features
-- **🔐 Secure Authentication**: SHA256 password hashing with user registration/login
+- **Secure Authentication**: SHA256 password hashing with user registration/login
 - **👥 Role-Based Access**: Admin and User roles with appropriate permissions
 - **📁 Personal Data Isolation**: Each user maintains their own recipe and ingredient collections
-- **💾 Automatic Data Persistence**: User data is automatically saved after modifications
+- **Automatic Data Persistence**: User data is automatically saved after modifications
 - **🔄 Session Management**: Secure login/logout with session tracking
 
 ### Authentication Flow

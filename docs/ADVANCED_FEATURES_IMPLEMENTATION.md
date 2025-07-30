@@ -186,7 +186,7 @@ public class LRUCache<TKey, TValue>
 - **Memory Usage**: O(capacity) with automatic cleanup
 - **Cache Hit Rate**: Typically 85%+ for frequently accessed items
 
-## 🔧 Advanced Object-Oriented Design (Topic 4)
+## Advanced Object-Oriented Design (Topic 4)
 
 ### Design Patterns Implementation
 

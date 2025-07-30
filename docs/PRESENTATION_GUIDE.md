@@ -628,7 +628,7 @@ Parallel processing demo completed.
 
 ---
 
-## 🎯 Success Metrics to Highlight
+## Success Metrics to Highlight
 
 - **3000+ lines of code** (vs typical 200-500 for assignments)
 - **24 files changed** in final commit

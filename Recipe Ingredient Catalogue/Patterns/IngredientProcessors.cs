@@ -221,7 +221,7 @@ namespace RecipeIngredientCatalogue.Patterns
             }
             else if (daysRemaining <= 3)
             {
-                recommendations.Add("    ⚡ USE SOON - Plan meals around this ingredient");
+                recommendations.Add("    USE SOON - Plan meals around this ingredient");
                 recommendations.Add("    🥘 Consider batch cooking");
             }
             else if (daysRemaining <= 7)
