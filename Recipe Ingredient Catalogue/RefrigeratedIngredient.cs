@@ -79,7 +79,7 @@ public class RefrigeratedIngredient : PerishableIngredient
             
             if (IsTemperatureCompromised)
             {
-                Console.WriteLine("  ⚠️  WARNING: Temperature safety has been compromised!");
+                Console.WriteLine("  WARNING: Temperature safety has been compromised!");
             }
         }
 
@@ -102,7 +102,7 @@ public class RefrigeratedIngredient : PerishableIngredient
             if (exposureTemperature > MaxTemperature && exposureHours > 2.0)
             {
                 IsTemperatureCompromised = true;
-                Console.WriteLine($"⚠️  {Name} has been compromised due to temperature exposure!");
+                Console.WriteLine($"WARNING: {Name} has been compromised due to temperature exposure!");
             }
         }
 

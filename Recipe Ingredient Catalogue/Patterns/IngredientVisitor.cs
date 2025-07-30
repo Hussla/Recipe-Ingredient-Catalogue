@@ -75,7 +75,7 @@ namespace RecipeIngredientCatalogue.Patterns
 
         public override void Visit(RefrigeratedIngredient refrigeratedIngredient)
         {
-            _report.AppendLine($"🧊 Refrigerated Ingredient: {refrigeratedIngredient.Name}");
+            _report.AppendLine($"Refrigerated Ingredient: {refrigeratedIngredient.Name}");
             _report.AppendLine($"   Quantity: {refrigeratedIngredient.Quantity}");
             _report.AppendLine($"   Expires: {refrigeratedIngredient.ExpirationDate:yyyy-MM-dd}");
             _report.AppendLine($"   Storage: {refrigeratedIngredient.GetStorageRequirements()}");
@@ -89,7 +89,7 @@ namespace RecipeIngredientCatalogue.Patterns
 
         public override void Visit(FrozenIngredient frozenIngredient)
         {
-            _report.AppendLine($"❄️ Frozen Ingredient: {frozenIngredient.Name}");
+            _report.AppendLine($"Frozen Ingredient: {frozenIngredient.Name}");
             _report.AppendLine($"   Quantity: {frozenIngredient.Quantity}");
             _report.AppendLine($"   Expires: {frozenIngredient.ExpirationDate:yyyy-MM-dd}");
             _report.AppendLine($"   Storage: {frozenIngredient.GetStorageRequirements()}");
@@ -291,7 +291,7 @@ namespace RecipeIngredientCatalogue.Patterns
             }
             
             report.AppendLine();
-            report.AppendLine($"⚠️  Warnings ({_warnings.Count}):");
+            report.AppendLine($"Warnings ({_warnings.Count}):");
             foreach (var warning in _warnings)
             {
                 report.AppendLine($"   • {warning}");

@@ -232,22 +232,22 @@ namespace RecipeIngredientCatalogue.Patterns
             else
             {
                 recommendations.Add("    ✅ GOOD CONDITION - Normal usage");
-                recommendations.Add("    📊 Monitor for quality changes");
+                recommendations.Add("    Monitor for quality changes");
             }
 
             // Add storage-specific recommendations
             if (ingredient is RefrigeratedIngredient refrigerated)
             {
-                recommendations.Add($"    🧊 Maintain temperature at {refrigerated.OptimalTemperature}°C");
+                recommendations.Add($"    Maintain temperature at {refrigerated.OptimalTemperature}°C");
                 if (refrigerated.IsTemperatureCompromised)
                 {
-                    recommendations.Add("    ⚠️ Temperature compromised - use immediately");
+                    recommendations.Add("    WARNING: Temperature compromised - use immediately");
                 }
             }
 
             if (ingredient is FrozenIngredient frozen)
             {
-                recommendations.Add($"    ❄️ Keep frozen at {frozen.FreezingTemperature}°C");
+                recommendations.Add($"    Keep frozen at {frozen.FreezingTemperature}°C");
                 if (frozen.FreezeThaWCycles > 0)
                 {
                     recommendations.Add($"    🔄 Freeze-thaw cycles: {frozen.FreezeThaWCycles}/{frozen.MaxFreezeThaWCycles}");

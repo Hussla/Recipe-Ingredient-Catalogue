@@ -6,7 +6,7 @@ This guide will help you demonstrate every feature of your Recipe Ingredient Cat
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Running the Application
 ```bash
@@ -22,14 +22,14 @@ Running tests for PerishableIngredient class...
 All PerishableIngredient class tests passed.
 Running tests for RefrigeratedIngredient class...
 Running RefrigeratedIngredient tests...
-⚠️  Milk has been compromised due to temperature exposure!
+WARNING: Milk has been compromised due to temperature exposure!
 RefrigeratedIngredient tests completed successfully.
 Running tests for FrozenIngredient class...
 Running FrozenIngredient tests...
-🧊 Ice Cream has been thawed (Cycle 1)
-❄️  Ice Cream has been refrozen
-🧊 Ice Cream has been thawed (Cycle 2)
-⚠️  Ice Cream has exceeded safe freeze-thaw cycles!
+Ice Cream has been thawed (Cycle 1)
+Ice Cream has been refrozen
+Ice Cream has been thawed (Cycle 2)
+WARNING: Ice Cream has exceeded safe freeze-thaw cycles!
 FrozenIngredient tests completed successfully.
 Running tests for Recipe class...
 All Recipe class tests passed.
@@ -53,7 +53,7 @@ Choose an option (1-3):
 
 ---
 
-## 🔐 Authentication System (Multi-User Support)
+## Authentication System (Multi-User Support)
 
 ### Feature 1: User Registration
 **Steps to test:**
@@ -124,7 +124,7 @@ Enter your choice:
 
 ---
 
-## 📊 Core Data Management Features
+## Core Data Management Features
 
 ### Feature 3: Adding Recipes
 **Steps to test:**
@@ -219,7 +219,7 @@ Enter quantity: 500
 Enter expiration date (yyyy-mm-dd): 2025-02-15
 Enter optimal storage temperature (°C): 4
 Enter maximum safe temperature (°C): 8
-🧊 RefrigeratedIngredient 'Fresh Cheese' has been added successfully!
+RefrigeratedIngredient 'Fresh Cheese' has been added successfully!
 Storage Requirements: Keep at 4°C (max 8°C)
 User data saved successfully.
 ```
@@ -232,7 +232,7 @@ User data saved successfully.
 
 ---
 
-## 🔍 Search and Display Features
+## Search and Display Features
 
 ### Feature 6: Display All Recipes
 **Steps to test:**
@@ -250,14 +250,14 @@ Cuisine: Italian
 Preparation Time: 25 minutes
 Ingredients:
   - Spaghetti: 400g
-  - 🥚 Eggs: 3 (Expires: 2025-02-01)
+  - Eggs: 3 (Expires: 2025-02-01)
 Average Rating: No ratings yet
 
 Total recipes: 1
 ```
 
 **What to highlight:**
-- "Clean, professional formatting with emoji indicators"
+- "Clean, professional formatting"
 - "Shows all recipe details including average ratings"
 - "Demonstrates polymorphic DisplayInfo() methods"
 
@@ -280,7 +280,7 @@ Cuisine: Italian
 Preparation Time: 25 minutes
 Ingredients:
   - Spaghetti: 400g
-  - 🥚 Eggs: 3 (Expires: 2025-02-01)
+  - Eggs: 3 (Expires: 2025-02-01)
 Average Rating: No ratings yet
 
 Ingredients found:
@@ -313,7 +313,7 @@ Cuisine: Italian
 Preparation Time: 25 minutes
 Ingredients:
   - Spaghetti: 400g
-  - 🥚 Eggs: 3 (Expires: 2025-02-01)
+  - Eggs: 3 (Expires: 2025-02-01)
 Average Rating: No ratings yet
 
 Total Italian recipes: 1
@@ -326,7 +326,7 @@ Total Italian recipes: 1
 
 ---
 
-## ⭐ Rating and Sorting Features
+## Rating and Sorting Features
 
 ### Feature 9: Recipe Rating System
 **Steps to test:**
@@ -369,7 +369,7 @@ Cuisine: Italian
 Preparation Time: 25 minutes
 Ingredients:
   - Spaghetti: 400g
-  - 🥚 Eggs: 3 (Expires: 2025-02-01)
+  - Eggs: 3 (Expires: 2025-02-01)
 Average Rating: 4.0/5
 
 Recipes sorted successfully.
@@ -382,7 +382,7 @@ Recipes sorted successfully.
 
 ---
 
-## 💾 Data Persistence Features
+## Data Persistence Features
 
 ### Feature 11: JSON Export/Import
 **Steps to test:**
@@ -454,7 +454,7 @@ Report contains:
 
 ---
 
-## 🚀 Advanced Performance Features
+## Advanced Performance Features
 
 ### Feature 14: Performance Benchmarking
 **Steps to test:**
@@ -543,7 +543,7 @@ Parallel processing demo completed.
 
 ---
 
-## 🛠️ Advanced Technical Features
+## Advanced Technical Features
 
 ### Feature 16: Circuit Breaker Pattern
 **What to highlight:**
@@ -565,7 +565,7 @@ Parallel processing demo completed.
 
 ---
 
-## 🎯 Key Points for Lecturer Presentation
+## Key Points for Lecturer Presentation
 
 ### 1. Technical Complexity
 - **4-level inheritance hierarchy** (Ingredient → PerishableIngredient → RefrigeratedIngredient → FrozenIngredient)
@@ -593,7 +593,7 @@ Parallel processing demo completed.
 
 ---
 
-## 🗣️ Presentation Script Suggestions
+## Presentation Script Suggestions
 
 ### Opening (2 minutes)
 *"I've built a Recipe Ingredient Catalogue that demonstrates all core programming concepts while implementing enterprise-grade features. Let me show you the multi-user authentication system first..."*
@@ -612,7 +612,7 @@ Parallel processing demo completed.
 
 ---
 
-## 📝 Questions You Might Be Asked
+## Questions You Might Be Asked
 
 ### Q: "How does the authentication system work?"
 **A:** "I use BCrypt hashing for password security - industry standard. Each user gets their own data file with complete isolation. The system supports role-based access with admins getting additional features."

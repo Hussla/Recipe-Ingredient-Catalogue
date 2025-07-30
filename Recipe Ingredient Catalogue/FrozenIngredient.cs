@@ -87,7 +87,7 @@ public class FrozenIngredient : RefrigeratedIngredient
             
             if (FreezeThaWCycles >= MaxFreezeThaWCycles)
             {
-                Console.WriteLine("  ⚠️  WARNING: Maximum freeze-thaw cycles exceeded!");
+                Console.WriteLine("  WARNING: Maximum freeze-thaw cycles exceeded!");
             }
         }
 
@@ -109,11 +109,11 @@ public class FrozenIngredient : RefrigeratedIngredient
             {
                 HasBeenThawed = true;
                 FreezeThaWCycles++;
-                Console.WriteLine($"🧊 {Name} has been thawed (Cycle {FreezeThaWCycles})");
+                Console.WriteLine($"THAWED: {Name} has been thawed (Cycle {FreezeThaWCycles})");
                 
                 if (FreezeThaWCycles >= MaxFreezeThaWCycles)
                 {
-                    Console.WriteLine($"⚠️  {Name} has exceeded safe freeze-thaw cycles!");
+                    Console.WriteLine($"WARNING: {Name} has exceeded safe freeze-thaw cycles!");
                 }
             }
         }
@@ -126,7 +126,7 @@ public class FrozenIngredient : RefrigeratedIngredient
             if (HasBeenThawed)
             {
                 HasBeenThawed = false;
-                Console.WriteLine($"❄️  {Name} has been refrozen");
+                Console.WriteLine($"FROZEN: {Name} has been refrozen");
             }
         }
 

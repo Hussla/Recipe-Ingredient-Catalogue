@@ -386,7 +386,7 @@ Choice: 11
 Enter filename (default: catalogue.json): my_recipes.json
 
 Saving data to JSON file...
-✓ Data saved successfully to 'my_recipes.json'
+Data saved successfully to 'my_recipes.json'
 File size: 15.7KB
 Recipes saved: 25
 Ingredients saved: 147
@@ -401,7 +401,7 @@ dotnet run -- export --format=binary --output=production.dat
 ```
 === Binary Export ===
 Exporting to binary format...
-✓ Data exported successfully to 'production.dat'
+Data exported successfully to 'production.dat'
 File size: 8.2KB (47% compression vs JSON)
 Export time: 23ms
 ```
@@ -418,7 +418,7 @@ Enter password: ********
 Confirm password: ********
 Enter role (User/Admin): User
 
-✓ Registration successful!
+Registration successful!
 Welcome, student_user!
 ```
 
@@ -430,7 +430,7 @@ Choice: 1
 Enter username: student_user
 Enter password: ********
 
-✓ Login successful!
+Login successful!
 Welcome back, student_user!
 Role: User
 Last login: 29/07/2025 14:32:15
@@ -471,28 +471,28 @@ dotnet run -- --test
 === Running Unit Tests ===
 
 Testing Recipe Class:
-✓ Recipe name getter/setter
-✓ Recipe cuisine property
-✓ Recipe preparation time
-✓ Ingredient collection management
-✓ Rating system validation
-✓ Average rating calculation
+Recipe name getter/setter
+Recipe cuisine property
+Recipe preparation time
+Ingredient collection management
+Rating system validation
+Average rating calculation
 
 Testing Ingredient Hierarchy:
-✓ Base ingredient functionality
-✓ Perishable ingredient expiration
-✓ Refrigerated ingredient temperature
-✓ Frozen ingredient freeze-thaw cycles
+Base ingredient functionality
+Perishable ingredient expiration
+Refrigerated ingredient temperature
+Frozen ingredient freeze-thaw cycles
 
 Testing Data Services:
-✓ JSON serialisation/deserialisation
-✓ Binary file operations
-✓ Data validation and integrity
+JSON serialisation/deserialisation
+Binary file operations
+Data validation and integrity
 
 Testing Authentication:
-✓ User registration
-✓ Password hashing
-✓ Role-based access control
+User registration
+Password hashing
+Role-based access control
 
 All tests passed! (24/24)
 Total execution time: 156ms
