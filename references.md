@@ -501,6 +501,3 @@ The Recipe Ingredient Catalogue demonstrates advanced C# programming concepts, m
 
 ---
 
-*Generated on: July 29, 2025*
-*Project Version: .NET 8.0*
-*Documentation Version: 1.0*
